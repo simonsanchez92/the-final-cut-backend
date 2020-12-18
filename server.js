@@ -5,7 +5,7 @@ const dotenv = require('dotenv')
 const connectDB = require('./config/db');
 
 
-//Load env vars
+//Load environment variables
 dotenv.config({path: './config/config.env'});
 
 connectDB();
@@ -17,9 +17,12 @@ const app = express();
 app.use(express.json());
 
 
+//Route files
+const auth = require('./routes/auth');
+
 //Mount routers
-//Example:
-// app.use('/api/v1/users/register', users);
+
+app.use('/api/v1/auth', auth);
 // app.use('/api/v1/users/login', users);
 // app.use('/api/v1/users/profile', users);
 
