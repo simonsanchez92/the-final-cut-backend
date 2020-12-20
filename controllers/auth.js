@@ -105,9 +105,35 @@ exports.getUser = async(req,res,next)=>{
                 success: false,
                 data: `${err.value} is not a valid ObjectId`
             })
+    }  
+}
+
+// @Description - Delete user
+// @Route - Delete  /api/v1/auth/users/:id
+// @access - Public
+
+exports.deleteUser = async(req,res,next)=>{
+
+
+    try {
+
+        await User.findByIdAndDelete(req.params.id);
+
+      
+        res.status(200).json({
+            success: true,
+            data: 'User deleted'
+        });
+
+    } catch (err) {
+
+        res.status(400).json({
+            success: false,
+            data: `No user found with the id of ${req.params.id}`
+        });
     }
-       
-    
-    
-    
+
+
+        
+   
 }
