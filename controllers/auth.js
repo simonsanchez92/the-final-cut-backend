@@ -131,9 +131,6 @@ exports.deleteUser = async(req,res,next)=>{
             success: false,
             data: `No user found with the id of ${req.params.id}`
         });
-    }
-
-
-        
+    }    
    
 }
