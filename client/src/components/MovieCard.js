@@ -1,4 +1,6 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
+
 
 
 
@@ -9,7 +11,8 @@ import React from 'react';
     const  {poster_path,
             vote_average,
             original_title,
-            release_date} = props.movie;
+            release_date,
+            id} = props.movie;
 
 
  
@@ -35,8 +38,11 @@ import React from 'react';
             
         </ul>
        
-
-        {/* <button onClick="movieDetail(${movie.id})">See More...</button> */}
+            <Link to={{
+            pathname:`movies/${id}`,
+            movieProps:{movie: props.movie}
+            }}>See more...</Link>
+         
 
         </div>
         

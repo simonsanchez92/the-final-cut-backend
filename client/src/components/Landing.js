@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import SearchBar from './SearchBar';
 import MovieCard from './MovieCard';
-import Pagination from './Pagination';
+
 
  const Landing = (props) => {
 

@@ -10,6 +10,7 @@ import Header from './components/Header';
 import Landing from './components/Landing';
 import Login from './components/Login';
 import Register from './components/Register';
+import Movie from './components/Movie';
 
 
 const App = ()=>{
@@ -51,6 +52,7 @@ const App = ()=>{
   
       <Route exact path='/login' component={Login}/>
       <Route exact path='/register' component={Register}/>
+      <Route exact path='/movies/:id' component={Movie}/>
 
     </Switch>
     </Router>
