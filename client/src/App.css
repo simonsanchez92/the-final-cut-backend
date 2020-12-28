@@ -449,16 +449,17 @@ form input[type="button"]:hover {
 
 .pagination {
   display: flex;
+  justify-content: center;
 }
 .pagination .btn {
   color: #fff;
   cursor: pointer;
   margin: 10px;
   font-size: 24px;
-
   background: 0;
   border: 0;
 }
+
 .pagination .btn i {
   font-size: 24px;
   padding: 10px;

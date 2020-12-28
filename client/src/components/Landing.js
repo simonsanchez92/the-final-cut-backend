@@ -1,88 +1,63 @@
-import React, {Fragment} from 'react'
+import React, {Fragment, useState,useEffect} from 'react';
+import axios from 'axios';
+
+import SearchBar from './SearchBar';
+import MovieCard from './MovieCard';
+import Pagination from './Pagination';
 
  const Landing = (props) => {
 
-  console.log(props.movies)
+  
+  const [genres, setGenres] = useState()
 
-  const IMG_PATH = 'https://image.tmdb.org/t/p/w1280';
+
+  useEffect(()=>{
+    async function fetchData(){
+      const API_URL =`https://api.themoviedb.org/3/genre/movie/list?api_key=4c0c205a5315c151196343cd53dbf96f&language=en-US`;
+
+      const res = await axios.get(API_URL);
+      const data = await res.data.genres;
+      setGenres(data);
+    }
+    fetchData();
+  },[])
+
+ const forward = ()=>{
+     let page = props.page + 1;
+     props.paginate(page)
+ }
+ const backward = ()=>{
+     if(props.page > 1){
+        let page = props.page - 1;
+        props.paginate(page)
+     }
+    
+ }
   
     return (
         <Fragment>
-            <div className="search-container container-fluid
-        d-flex
-        justify-content-center" id='search-container'>
+            <SearchBar/>
+        <main className="main" id='main'>
+            <h2 id="search-text">Latest Movies:</h2>
 
-
-
-    <form className='search-form py-4 px-1' id='search-form'>
-        
-        <div className="input-group ">
-
-<input className="search-input
-          form-control" 
-    type="text" 
-    placeholder='Begin your search...'  
-    id='search-input'/>
-
-<input className='search-form search-Btn
-           btn'
-     value='Search' type='button'  id='searchBtn'
-  placeholder=""/>
-        </div>
-       
-    </form>
-
-
-</div>
-
-
-
-<main className="main" id='main'>
-    <h2 id="search-text">Latest Movies:</h2>
-
-    <div className="movies-container" id='movies-container'>
+            <div className="movies-container" id='movies-container'>
 
         {props.movies === undefined ? '' : (
-            props.movies.map(movie=> {
-                return <div class="movie-card">
-                <i class="fas fa-tv"></i>
-               
-                <div class="movie-img-container">
-        
-                <img src={movie.poster_path !== null ? IMG_PATH + movie.poster_path : 'img/default.jpg'} alt={movie.original_title}/>
-                
-                <div class="card-overlay">
-                
-                <div class='movie-rating'>
-                    <i class="fas fa-star"></i>
-                    <span>{movie.vote_average}/10</span>
-                </div>
-        
-               
-        
-                <button onclick="movieDetail(${movie.id})">See More...</button>
-        
-                </div>
-                
-                </div> 
-                
-                <div class='title-year-box'>
-                <span><b>{movie.original_title}</b></span>
-                <span>{!movie.release_date ? '' : movie.release_date.split('-')[0]}</span>
-                </div>
-          
-                </div>
-            })
+            props.movies.map(movie=>  <MovieCard key={movie.id} movie={movie} genres={genres}/>)
         )}
        
 
-    </div>
-</main>
+        </div>
+      </main>
 
-<div className="pagination" id="pagination">
-    
-   
-</div>
+        <div className="pagination" id="pagination">
+            {props.page === 1 ? 
+            <button onClick={()=> backward()} className='btn' disabled><i className="far fa-hand-point-left"></i>Prev</button>
+                : 
+            <button onClick={()=> backward()} className='btn'><i className="far fa-hand-point-left"></i>Prev</button>
+            } 
+            <button onClick={()=> forward()} className='btn'>Next<i className="far fa-hand-point-right"></i></button>
+        </div>
         </Fragment>
     )
 }

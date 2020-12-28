@@ -14,22 +14,25 @@ import Register from './components/Register';
 
 const App = ()=>{
 
-  const [movies, getMovies] = useState()
+  const [movies, setMovies] = useState();
 
+  const [page, setPage] = useState(1);
 
-  useEffect(()=>{
-    async function fetchData(){
+  const paginate = (page)=>{
+    setPage(page);
+    fetchData(page);
+  }
 
-      const API_URL =`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=4c0c205a5315c151196343cd53dbf96f&page=1`;
+  const fetchData = async(page)=>{
+    console.log(`Page is ${page}`)
+    const API_URL =`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=4c0c205a5315c151196343cd53dbf96f&page=${page}`;
+    const res = await axios.get(API_URL);
+    const data = await res.data.results;
+    setMovies(data);
+  }
 
-      const res = await axios.get(API_URL);
-      const data = await res.data.results;
-      getMovies(data);
-    }
-    fetchData();
-
-
-
+  useEffect(()=>{ 
+    fetchData(page);
   },[])
 
  
@@ -37,12 +40,14 @@ const App = ()=>{
     <Router >
       
     <Header/>
+ 
+    <Switch>
+
     <Route exact path='/' 
            render={()=>(
-             <Landing  movies={movies}/>
+             <Landing  movies={movies} page={page} paginate={paginate}/>
            )}/>
 
-    <Switch>
   
       <Route exact path='/login' component={Login}/>
       <Route exact path='/register' component={Register}/>
