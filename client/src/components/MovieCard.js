@@ -9,18 +9,9 @@ import React from 'react';
     const  {poster_path,
             vote_average,
             original_title,
-            release_date, 
-            genre_ids} = props.movie;
+            release_date} = props.movie;
 
-    // let movieGenres = [];
 
-    // props.genres.forEach(obj=>{
-    //       genre_ids.forEach(id=>{
-    //         if(obj.id === id){
-    //             movieGenres.push(obj)
-    //         }
-    //       })
-    //   })
  
     return (
         <div className="movie-card">
