@@ -4,6 +4,8 @@ import axios from 'axios';
 import SearchBar from './SearchBar';
 import MovieCard from './MovieCard';
 
+import {connect} from 'react-redux';
+
 
  const Landing = (props) => {
 
@@ -63,4 +65,4 @@ import MovieCard from './MovieCard';
 }
 
 
-export default Landing;
+export default connect()(Landing);

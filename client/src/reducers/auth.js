@@ -1,12 +1,14 @@
 import{
-    USER_LOADED
+    USER_LOADED,
+    REGISTER_SUCCESS,
+    REGISTER_FAIL
 } from '../actions/types';
 
 const initialState = {
     // token: localStorage.getItem('token'),
-    isAuthenticated: null,
-    loading: true,
-    user: null
+    // isAuthenticated: null,
+    // loading: true,
+    // user: null
 }
 
 export default function(state = initialState, action){    
@@ -21,7 +23,11 @@ export default function(state = initialState, action){
                 
             }
             
-        // case REGISTER_SUCCESS:
+         case REGISTER_SUCCESS:
+        return {
+            ...state,
+            ...action.payload
+        }
         // case LOGIN_SUCCESS:
         // localStorage.setItem('token', payload.token);
         // return{

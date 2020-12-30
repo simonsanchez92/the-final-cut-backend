@@ -1,8 +1,38 @@
-import React, {Fragment} from 'react'
+import React, {Fragment, useState} from 'react';
+
+import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
+
+import {register} from '../actions/auth';
 
 
+const Register = ({register}) => {
 
-const Register = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password:'',
+    password2: ''
+  });
+  const {name, email, password, password2} = formData;
+
+  const handleChange = (e)=>{
+    setFormData({...formData, [e.target.name] : e.target.value});
+  }
+
+  const handleSubmit = async(e)=>{
+      e.preventDefault();
+
+      if(password === password2){
+        console.log('Success!')
+        console.log({name, email, password})
+        register({name,email, password});
+      }else{
+        alert('Passwords do not match!')
+
+      }
+  }
+
     return (
         <Fragment>
                 <section className="register-box
@@ -19,14 +49,17 @@ const Register = () => {
         
         
 
-        <form className='form py-3'>
+        <form className='form py-3' onSubmit={e =>handleSubmit(e)}>
 
             <div className="mb-3">
             
                 <input type="text"
                        className="form-control"
                        id="name"
+                       name='name'
                        placeholder="Name"
+                       value={name}
+                       onChange={e=> handleChange(e)}
                        required/>
               </div>
 
@@ -35,28 +68,37 @@ const Register = () => {
               <input type="email"
                      className="form-control "
                      id="exampleInputEmail1"
+                     name='email'
                      placeholder="Email Address"
-                     aria-describedby="emailHelp"/>
+                     value={email}
+                     aria-describedby="emailHelp"
+                     onChange={handleChange}/>
             </div>
             <div className="mb-3">
             
               <input type="password"
                      className="form-control"
-                     id="password1"
+                     id="password"
+                     name='password'
                      placeholder="Password"
-                     minLength="6"/>
+                     value={password}
+                     minLength="6"
+                     onChange={handleChange}/>
             </div>
             <div className="mb-3">
               <input type="password" 
                      className="form-control"
                      id="password2"
+                     name='password2'
                      placeholder="Confirm password"
-                     minLength="6"/>
+                     value={password2}
+                     minLength="6"
+                     onChange={handleChange}/>
             </div>
             <button type="submit" className="btn btn-primary register-btn">Submit</button>
           </form>
           <p className="my-2">
-            Already have an account? <a href="login.html" className='text-info'>Sign In</a>
+            Already have an account? <Link to="/login" className='text-info'>Sign In</Link>
           </p>
     
     
@@ -65,5 +107,8 @@ const Register = () => {
     )
 }
 
+const mapStateToProps = state =>({
+  register: state.auth
+})
 
-export default Register
+export default connect(mapStateToProps,{register})(Register)

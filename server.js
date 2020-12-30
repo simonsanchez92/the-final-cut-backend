@@ -4,6 +4,7 @@ const dotenv = require('dotenv')
 
 const connectDB = require('./config/db');
 
+const cors = require('cors');
 
 //Load environment variables
 dotenv.config({path: './config/config.env'});
@@ -13,6 +14,7 @@ connectDB();
 
 const app = express();
 
+app.use(cors())
 //Body parser
 app.use(express.json());
 

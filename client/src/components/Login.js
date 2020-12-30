@@ -1,4 +1,5 @@
 import React, {Fragment} from 'react'
+import {Link} from 'react-router-dom';
 
 
 
@@ -44,7 +45,7 @@ const Login = () => {
 </form>
 
 <p className="my-2">
-Don't have an account? <a href="register.html" className='text-info'>Register</a>
+Don't have an account? <Link to="/register" className='text-info'>Register</Link>
 </p>
 
 

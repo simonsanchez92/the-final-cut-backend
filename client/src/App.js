@@ -47,14 +47,15 @@ const App = ()=>{
 
     <Router >
       
-    <Header/>
- 
-    <Switch>
-
-    <Route exact path='/' 
+      <Header/>
+      <Route exact path='/' 
            render={()=>(
              <Landing  movies={movies} page={page} paginate={paginate}/>
            )}/>
+ 
+    <Switch>
+
+    
 
   
       <Route exact path='/login' component={Login}/>
