@@ -13,6 +13,10 @@ import Register from './components/Register';
 import Movie from './components/Movie';
 
 
+import {Provider} from 'react-redux';
+import store from './store';
+
+
 const App = ()=>{
 
   const [movies, setMovies] = useState();
@@ -38,6 +42,9 @@ const App = ()=>{
 
  
   return (
+    <Provider store={store}>
+
+
     <Router >
       
     <Header/>
@@ -55,7 +62,9 @@ const App = ()=>{
       <Route exact path='/movies/:id' component={Movie}/>
 
     </Switch>
-    </Router>
+            </Router>
+
+      </Provider>
   );
 }
 
