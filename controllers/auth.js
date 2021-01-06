@@ -86,12 +86,12 @@ exports.getUser = async(req,res,next)=>{
 
     try {
 
-        const user = await User.findById(req.params.id);
+        const user = await User.findById(req.user.id);
 
         if(!user){
            return res.status(400).json({
                 success: false,
-                data: `No user found with the id of ${req.params.id}`
+                data: `No user found with the id of ${req.user.id}`
             })
         }
         
@@ -107,6 +107,57 @@ exports.getUser = async(req,res,next)=>{
             })
     }  
 }
+
+// @Description - login and get token
+// @Route - POST  /api/v1/auth/login
+// @access - Public
+
+exports.login = async (req,res,next)=>{
+
+    
+    
+    const {email, password} = req.body;
+    
+    try {
+        let user = await User.findOne({email});
+        console.log(user.password, password)
+        if(!user){
+            return res.status(400).json({errors: [{msg: 'Invalid credentials'}]});
+        }
+       
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        console.log(isMatch)
+
+        if(!isMatch){
+            return res.status(400).json({errors: [{msg: 'Invalid credentials'}]})
+        }
+     
+
+        const payload = {
+            user: {
+                id: user.id
+            }
+        }
+
+        jwt.sign(
+            payload,
+            process.env.JWTSECRET,
+            {expiresIn: 360000},
+            (err,token)=>{
+                if(err) throw err;
+                return res.json({token});
+            }
+        )
+        
+
+    } catch (err) {
+        console.error(err.message);
+        
+        res.status(500).send('Server error!');
+    }
+}
+
 
 // @Description - Delete user
 // @Route - Delete  /api/v1/auth/users/:id

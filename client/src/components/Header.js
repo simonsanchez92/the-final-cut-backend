@@ -3,10 +3,13 @@ import React,{Fragment} from 'react'
 import {Link} from 'react-router-dom';
 
 
+import {connect} from 'react-redux';
+
+import {logout} from '../actions/auth';
 
 
 
- const Header = () => {
+ const Header = ({isAuthenticated, logout}) => {
     return (
         <Fragment>
                 <header className='container-fluid'>
@@ -22,15 +25,28 @@ import {Link} from 'react-router-dom';
             <li className="nav-item">
                 <Link className="nav-link active fs-6" aria-current="page" to="/">Home</Link>
               </li>
-              <li className="nav-item">
+
+              
+              
+              {!isAuthenticated ? <Fragment>
+                <li className="nav-item">
                 <Link className="nav-link fs-6" to="/register">Register</Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link fs-6" to="/login">Login</Link>
               </li>
+              </Fragment> : <Fragment>
               <li className="nav-item">
                 <Link className="nav-link fs-6" to="/profile">Profile</Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link fs-6" onClick={logout} to="/">Logout</Link>
+              </li>
+                </Fragment>}
+               
+              
+              
+              
            
            
           </ul>
@@ -40,4 +56,8 @@ import {Link} from 'react-router-dom';
     )
 }
 
-export default Header;
+const mapStateToProps = state=>({
+  isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps, {logout})(Header);

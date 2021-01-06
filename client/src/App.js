@@ -16,30 +16,43 @@ import Movie from './components/Movie';
 import {Provider} from 'react-redux';
 import store from './store';
 
+import {loadUser} from './actions/auth';
+import setAuthToken from './utils/setAuthToken';
+
+
+
+if(localStorage.token){
+  setAuthToken(localStorage.token);
+}
 
 const App = ()=>{
 
-  const [movies, setMovies] = useState();
+  // const [movies, setMovies] = useState();
 
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
 
-  const paginate = (page)=>{
-    setPage(page);
-    fetchData(page);
-  }
+  // const paginate = (page)=>{
+  //   setPage(page);
+  //   fetchData(page);
+  // }
 
-  const fetchData = async(page)=>{
-    console.log(`Page is ${page}`)
-    const API_URL =`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=4c0c205a5315c151196343cd53dbf96f&page=${page}`;
-    const res = await axios.get(API_URL);
-    const data = await res.data.results;
-    setMovies(data);
-  }
+  // const fetchData = async(page)=>{
+  //   console.log(`Page is ${page}`)
+  //   const API_URL =`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=4c0c205a5315c151196343cd53dbf96f&page=${page}`;
+  //   const res = await axios.get(API_URL);
+  //   const data = await res.data.results;
+  //   setMovies(data);
+  // }
+
+  // useEffect(()=>{ 
+  //   fetchData(page);
+  // },[])
+
+ 
 
   useEffect(()=>{ 
-    fetchData(page);
+    store.dispatch(loadUser());
   },[])
-
  
   return (
     <Provider store={store}>
@@ -48,10 +61,10 @@ const App = ()=>{
     <Router >
       
       <Header/>
-      <Route exact path='/' 
+      {/* <Route exact path='/' 
            render={()=>(
              <Landing  movies={movies} page={page} paginate={paginate}/>
-           )}/>
+           )}/> */}
  
     <Switch>
 

@@ -1,32 +1,39 @@
 import{
     USER_LOADED,
     REGISTER_SUCCESS,
-    REGISTER_FAIL
+    REGISTER_FAIL,
+    LOGIN_SUCCESS,
+    LOGIN_FAIL,
+    AUTH_ERROR,
+    LOGOUT
 } from '../actions/types';
 
 const initialState = {
-    // token: localStorage.getItem('token'),
-    // isAuthenticated: null,
+    token: localStorage.getItem('token'),
+    isAuthenticated: null,
+    user: null
     // loading: true,
-    // user: null
 }
 
 export default function(state = initialState, action){    
-    // const {type, payload} = action;
+    const {type, payload} = action;
     
-    switch(action.type){
+    switch(type){
         case USER_LOADED:
             return {
-                ...state,
-               
+                ...state, 
                 loading: false,
-                
+                isAuthenticated: true,
+                user: payload.data
             }
             
          case REGISTER_SUCCESS:
+         case LOGIN_SUCCESS:
+        localStorage.setItem('token', payload.token);
         return {
             ...state,
-            ...action.payload
+            ...payload,
+            isAuthenticated: true
         }
         // case LOGIN_SUCCESS:
         // localStorage.setItem('token', payload.token);
@@ -40,17 +47,17 @@ export default function(state = initialState, action){
         // case REGISTER_FAIL:
         // case AUTH_ERROR:
         // case LOGIN_FAIL:
-        // case LOGOUT:
+         case LOGOUT:
         // case ACCOUNT_DELETED:
 
-        // localStorage.removeItem('token');
+        localStorage.removeItem('token');
         
-        // return {
-        //     ...state,
-        //     token: null,
-        //     isAuthenticated: false,
-        //     loading: false
-        // }
+        return {
+            ...state,
+            token: null,
+            isAuthenticated: false,
+            loading: false
+        }
         
         default:
         return state;

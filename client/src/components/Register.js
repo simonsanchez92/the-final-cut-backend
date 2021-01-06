@@ -1,12 +1,12 @@
 import React, {Fragment, useState} from 'react';
 
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import {register} from '../actions/auth';
 
 
-const Register = ({register}) => {
+const Register = ({register, isAuthenticated}) => {
 
   const [formData, setFormData] = useState({
     name: '',
@@ -31,6 +31,9 @@ const Register = ({register}) => {
         alert('Passwords do not match!')
 
       }
+  }
+  if(isAuthenticated){
+    return <Redirect to='/'/> 
   }
 
     return (
@@ -108,7 +111,7 @@ const Register = ({register}) => {
 }
 
 const mapStateToProps = state =>({
-  register: state.auth
+  isAuthenticated: state.auth.isAuthenticated
 })
 
 export default connect(mapStateToProps,{register})(Register)
