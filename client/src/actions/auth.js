@@ -1,12 +1,14 @@
 import axios from 'axios';
 
 import {
+    AUTH_ERROR,
     USER_LOADED,
     REGISTER_SUCCESS,
     REGISTER_FAIL,
-    LOGOUT,
-    AUTH_ERROR,
-    CLEAR_PROFILE
+    LOGIN_SUCCESS,
+    LOGIN_FAIL,
+    LOGOUT
+    
 } from './types';
 
 import setAuthToken from '../utils/setAuthToken';
@@ -30,7 +32,9 @@ export const register = ({name, email, password})=> async dispatch =>{
     dispatch({
         type: REGISTER_SUCCESS,
         payload: res.data
-    })
+    });
+
+    dispatch(loadUser());
 
     } catch (err) {
         const errors = err.response.data.errors;
@@ -52,6 +56,9 @@ export const loadUser = ()=> async dispatch =>{
     try {
       const res = await axios.get('http://localhost:5000/api/v1/auth/');
 
+      
+
+
         dispatch({
             type: USER_LOADED,
             payload: res.data
@@ -63,11 +70,46 @@ export const loadUser = ()=> async dispatch =>{
         });
         console.log(err)
     }
-}
-export const logout = ()=> async dispatch=>{
-
     
-  
+    delete axios.defaults.headers.common['x-auth-token'];
+}
+
+export const login = (email, password)=> async dispatch=>{
+
+    const config = {
+        headers: {
+            "Content-type": "application/json"
+        }
+    }
+
+    const newUser = {
+        email, password
+    }
+    const body = JSON.stringify(newUser)
+
+    console.log('anubody there?')
+    try {
+        const res = await axios.post('http://localhost:5000/api/v1/auth/login', body, config);
+
+        dispatch({
+            type:LOGIN_SUCCESS,
+            payload: res.data
+        });
+
+        dispatch(loadUser());
+    } catch (err) {
+        
+        console.log(err)
+        dispatch({
+            type: LOGIN_FAIL 
+        });
+    }
+    
+    
+        
+}
+
+export const logout = ()=> async dispatch=>{
         dispatch({
             type: LOGOUT
         });

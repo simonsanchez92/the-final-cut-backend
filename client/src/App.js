@@ -27,26 +27,36 @@ if(localStorage.token){
 
 const App = ()=>{
 
-  // const [movies, setMovies] = useState();
+  const [movies, setMovies] = useState();
 
-  // const [page, setPage] = useState(1);
+  const [page, setPage] = useState(1);
 
   // const paginate = (page)=>{
   //   setPage(page);
   //   fetchData(page);
   // }
 
-  // const fetchData = async(page)=>{
-  //   console.log(`Page is ${page}`)
-  //   const API_URL =`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=4c0c205a5315c151196343cd53dbf96f&page=${page}`;
-  //   const res = await axios.get(API_URL);
-  //   const data = await res.data.results;
-  //   setMovies(data);
-  // }
 
-  // useEffect(()=>{ 
-  //   fetchData(page);
-  // },[])
+// const proxy = 'https://cors-anywhere.herokuapp.com/';
+
+//   const fetchData = async(page)=>{
+//     console.log(`Page is ${page}`)
+
+    
+
+    
+//     const API_URL =`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=4c0c205a5315c151196343cd53dbf96f&page=${page}`;
+ 
+//     const res = await axios.get(API_URL);
+//     const data = await res.data.results;
+//     setMovies(data);
+    
+
+//   }
+
+//   useEffect(()=>{ 
+//     fetchData(page);
+//   },[])
 
  
 

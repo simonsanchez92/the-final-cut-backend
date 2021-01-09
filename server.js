@@ -21,11 +21,12 @@ app.use(express.json());
 
 //Route files
 const auth = require('./routes/auth');
+const movies = require('./routes/movies');
 
 //Mount routers
 
 app.use('/api/v1/auth', auth);
-// app.use('/api/v1/users/login', users);
+app.use('/api/v1/movies', movies);
 // app.use('/api/v1/users/profile', users);
 
 

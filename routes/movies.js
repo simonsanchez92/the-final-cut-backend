@@ -2,13 +2,11 @@ const express = require('express');
 
 
 
-const User = require('../models/User');
-
-
 const router = express.Router();
 
+const {getMovies} = require('../controllers/movies');
 
-router.route('/').post(createUser);
+router.route('/:page').get(getMovies);
 
 
 

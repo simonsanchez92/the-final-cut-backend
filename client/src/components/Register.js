@@ -75,7 +75,8 @@ const Register = ({register, isAuthenticated}) => {
                      placeholder="Email Address"
                      value={email}
                      aria-describedby="emailHelp"
-                     onChange={handleChange}/>
+                     onChange={e=> handleChange(e)}
+                     />
             </div>
             <div className="mb-3">
             
@@ -86,7 +87,8 @@ const Register = ({register, isAuthenticated}) => {
                      placeholder="Password"
                      value={password}
                      minLength="6"
-                     onChange={handleChange}/>
+                     onChange={e=> handleChange(e)}
+                     />
             </div>
             <div className="mb-3">
               <input type="password" 
@@ -96,7 +98,8 @@ const Register = ({register, isAuthenticated}) => {
                      placeholder="Confirm password"
                      value={password2}
                      minLength="6"
-                     onChange={handleChange}/>
+                     onChange={e=> handleChange(e)}
+                     />
             </div>
             <button type="submit" className="btn btn-primary register-btn">Submit</button>
           </form>

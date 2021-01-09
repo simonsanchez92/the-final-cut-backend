@@ -9,7 +9,7 @@ import {logout} from '../actions/auth';
 
 
 
- const Header = ({isAuthenticated, logout}) => {
+ const Header = ({isAuthenticated, user, logout}) => {
     return (
         <Fragment>
                 <header className='container-fluid'>
@@ -42,6 +42,7 @@ import {logout} from '../actions/auth';
               <li className="nav-item">
                 <Link className="nav-link fs-6" onClick={logout} to="/">Logout</Link>
               </li>
+               {user && <Fragment><li className='nav-item d-flex align-items-center text-warning text-capitalize'>{user.name}</li></Fragment>} 
                 </Fragment>}
                
               
@@ -57,7 +58,8 @@ import {logout} from '../actions/auth';
 }
 
 const mapStateToProps = state=>({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  user: state.auth.user
 });
 
 export default connect(mapStateToProps, {logout})(Header);
