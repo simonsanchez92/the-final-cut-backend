@@ -7,45 +7,46 @@ import MovieCard from './MovieCard';
 import {connect} from 'react-redux';
 
 
- const Landing = (props) => {
+ const Landing = ({movies, page, paginate}) => {
 
-  
-  const [genres, setGenres] = useState()
+console.log(movies)
+//   const [genres, setGenres] = useState()
 
 
-  useEffect(()=>{
-    async function fetchData(){
-      const API_URL =`https://api.themoviedb.org/3/genre/movie/list?api_key=4c0c205a5315c151196343cd53dbf96f&language=en-US`;
+//   useEffect(()=>{
+//     async function fetchData(){
+//       const API_URL =`https://api.themoviedb.org/3/genre/movie/list?api_key=4c0c205a5315c151196343cd53dbf96f&language=en-US`;
 
-      const res = await axios.get(API_URL);
-      const data = await res.data.genres;
-      setGenres(data);
-    }
-    fetchData();
-  },[])
+//       const res = await axios.get(API_URL);
+//       const data = await res.data.genres;
+//       setGenres(data);
+//     }
+//     fetchData();
+//   },[])
 
  const forward = ()=>{
-     let page = props.page + 1;
-     props.paginate(page)
+     let newPage = page + 1;
+     paginate(newPage)
  }
  const backward = ()=>{
-     if(props.page > 1){
-        let page = props.page - 1;
-        props.paginate(page)
+     if(page > 1){
+        let newPage = page - 1;
+        paginate(newPage)
      }
     
  }
   
     return (
+        
         <Fragment>
             <SearchBar/>
         <main className="main" id='main'>
-            <h2 id="search-text">Latest Movies:</h2>
+            <h2 id="search-text">Best rated Movies:</h2>
 
             <div className="movies-container" id='movies-container'>
 
-        {props.movies === undefined ? '' : (
-            props.movies.map(movie=>  <MovieCard key={movie.id} movie={movie} genres={genres}/>)
+        {movies === undefined ? '' : (
+            movies.map(movie=>  <MovieCard key={movie.id} movie={movie}/>)
         )}
        
 
@@ -53,7 +54,7 @@ import {connect} from 'react-redux';
       </main>
 
         <div className="pagination" id="pagination">
-            {props.page === 1 ? 
+            {page === 1 ? 
             <button onClick={()=> backward()} className='btn' disabled><i className="far fa-hand-point-left"></i>Prev</button>
                 : 
             <button onClick={()=> backward()} className='btn'><i className="far fa-hand-point-left"></i>Prev</button>
@@ -64,5 +65,10 @@ import {connect} from 'react-redux';
     )
 }
 
+const mapStateToProps = (state, ownProps)=>({
+    movies: state.movies.movies,
+    page: ownProps.page,
+    paginate: ownProps.paginate
+})
 
-export default connect()(Landing);
+export default connect(mapStateToProps)(Landing);

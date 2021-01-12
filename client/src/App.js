@@ -10,6 +10,7 @@ import Header from './components/Header';
 import Landing from './components/Landing';
 import Login from './components/Login';
 import Register from './components/Register';
+import Profile from './components/Profile';
 import Movie from './components/Movie';
 
 
@@ -20,10 +21,12 @@ import {loadUser} from './actions/auth';
 import setAuthToken from './utils/setAuthToken';
 
 
+import {getAllMovies} from './actions/movies';
 
-if(localStorage.token){
-  setAuthToken(localStorage.token);
-}
+
+// if(localStorage.token){
+//   setAuthToken(localStorage.token);
+// }
 
 const App = ()=>{
 
@@ -31,10 +34,11 @@ const App = ()=>{
 
   const [page, setPage] = useState(1);
 
-  // const paginate = (page)=>{
-  //   setPage(page);
-  //   fetchData(page);
-  // }
+  const paginate = (page)=>{
+    setPage(page);
+    store.dispatch(getAllMovies(page));
+
+  }
 
 
 // const proxy = 'https://cors-anywhere.herokuapp.com/';
@@ -54,9 +58,9 @@ const App = ()=>{
 
 //   }
 
-//   useEffect(()=>{ 
-//     fetchData(page);
-//   },[])
+  useEffect(()=>{ 
+    store.dispatch(getAllMovies(page));
+  },[])
 
  
 
@@ -71,18 +75,16 @@ const App = ()=>{
     <Router >
       
       <Header/>
-      {/* <Route exact path='/' 
+      <Route exact path='/' 
            render={()=>(
              <Landing  movies={movies} page={page} paginate={paginate}/>
-           )}/> */}
+           )}/>
  
-    <Switch>
+    <Switch>  
 
-    
-
-  
       <Route exact path='/login' component={Login}/>
       <Route exact path='/register' component={Register}/>
+      <Route exact path='/profile' component={Profile}/>
       <Route exact path='/movies/:id' component={Movie}/>
 
     </Switch>

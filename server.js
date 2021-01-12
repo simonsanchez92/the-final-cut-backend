@@ -22,12 +22,13 @@ app.use(express.json());
 //Route files
 const auth = require('./routes/auth');
 const movies = require('./routes/movies');
+const users = require('./routes/users');
 
 //Mount routers
 
 app.use('/api/v1/auth', auth);
 app.use('/api/v1/movies', movies);
-// app.use('/api/v1/users/profile', users);
+app.use('/api/v1/users', users);
 
 
 const PORT = process.env.PORT;

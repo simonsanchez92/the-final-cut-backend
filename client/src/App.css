@@ -228,13 +228,16 @@ form input[type="button"]:hover {
   padding: 3px 0;
   font-size: 22px;
 }
-
-.card-overlay button {
+.card-btns {
+  display: flex;
+  flex-direction: column;
+}
+.card-overlay .btn.see-more {
   z-index: 15;
   cursor: pointer;
   background-color: #c54b3d;
   border: 2px solid #c54b3d;
-
+  display: block;
   padding: 5px;
   width: 200px;
   font-size: 16px;
@@ -243,8 +246,17 @@ form input[type="button"]:hover {
   color: #fff;
   text-transform: capitalize;
   border-radius: 5px;
-  transform: translateY(50px);
+  /* transform: translateY(50px); */
   transition: all 0.3s ease-in-out;
+}
+
+.card-add-remove {
+  display: flex;
+  justify-content: center;
+}
+.card-add-remove button {
+  /* width: 50%; */
+  margin: 0 10px;
 }
 
 .main .movie-img-container:hover {
@@ -259,11 +271,11 @@ form input[type="button"]:hover {
   transform: translateY(0);
 }
 
-.card-overlay button:hover {
+/* .card-overlay button:hover {
   color: rgba(0, 0, 0, 0.589);
   background: #c83b2b;
   border-color: #c83b2b;
-}
+} */
 
 .movie-card .title-year-box {
   display: flex;
@@ -466,6 +478,26 @@ form input[type="button"]:hover {
 }
 .pagination .btn:hover {
   text-decoration: underline;
+}
+
+/* Profile page */
+.profile-movie {
+  background-color: rgba(0, 0, 0, 0.137);
+  /* max-width: 900px; */
+}
+.profile-movie .row {
+  background-color: transparent;
+}
+.profile-movie .row .list-group-item {
+  background-color: transparent;
+}
+
+.profile-movie img {
+  min-height: 100%;
+}
+.movie-poster {
+  border: 3px solid black;
+  width: 50%;
 }
 
 /* Media queries */

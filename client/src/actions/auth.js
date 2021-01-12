@@ -13,6 +13,8 @@ import {
 
 import setAuthToken from '../utils/setAuthToken';
 
+import {loadFavourites} from './movies';
+
 
 export const register = ({name, email, password})=> async dispatch =>{
 
@@ -49,20 +51,30 @@ export const register = ({name, email, password})=> async dispatch =>{
 
 
 export const loadUser = ()=> async dispatch =>{
-    if(localStorage.token){
-        setAuthToken(localStorage.token);
-    }
+    // if(localStorage.token){
+    //     setAuthToken(localStorage.token);
+    // }
 
     try {
-      const res = await axios.get('http://localhost:5000/api/v1/auth/');
 
-      
+        const instance = axios.create({
+            baseURL: 'http://localhost:5000/api/v1/auth/'
+          });
+
+        instance.defaults.headers.common['x-auth-token'] = localStorage.token;
+    //   const res = await axios.get('http://localhost:5000/api/v1/auth/');
+
+        const res = await instance.get('/')
+
+        console.log(res)
 
 
         dispatch({
             type: USER_LOADED,
             payload: res.data
         });
+
+        dispatch(loadFavourites(res.data.data._id));
 
     } catch (err) {
         dispatch({
@@ -71,7 +83,7 @@ export const loadUser = ()=> async dispatch =>{
         console.log(err)
     }
     
-    delete axios.defaults.headers.common['x-auth-token'];
+
 }
 
 export const login = (email, password)=> async dispatch=>{
