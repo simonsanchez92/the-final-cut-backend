@@ -1,5 +1,5 @@
-import React,{useEffect, useState} from 'react';
-import axios from 'axios';
+import React,{useEffect} from 'react';
+
 import './App.css';
 
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
@@ -15,54 +15,25 @@ import Movie from './components/Movie';
 
 
 import {Provider} from 'react-redux';
-import store from './store';
+import {store} from './store';
 
 import {loadUser} from './actions/auth';
-import setAuthToken from './utils/setAuthToken';
 
 
-import {getAllMovies} from './actions/movies';
+
+import {getMovies} from './actions/movies';
 
 
-// if(localStorage.token){
-//   setAuthToken(localStorage.token);
-// }
 
 const App = ()=>{
 
-  const [movies, setMovies] = useState();
 
-  const [page, setPage] = useState(1);
-
-  const paginate = (page)=>{
-    setPage(page);
-    store.dispatch(getAllMovies(page));
-
-  }
-
-
-// const proxy = 'https://cors-anywhere.herokuapp.com/';
-
-//   const fetchData = async(page)=>{
-//     console.log(`Page is ${page}`)
-
-    
-
-    
-//     const API_URL =`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=4c0c205a5315c151196343cd53dbf96f&page=${page}`;
- 
-//     const res = await axios.get(API_URL);
-//     const data = await res.data.results;
-//     setMovies(data);
-    
-
-//   }
 
   useEffect(()=>{ 
-    store.dispatch(getAllMovies(page));
+    store.dispatch(getMovies(1));
   },[])
 
- 
+  
 
   useEffect(()=>{ 
     store.dispatch(loadUser());
@@ -75,10 +46,7 @@ const App = ()=>{
     <Router >
       
       <Header/>
-      <Route exact path='/' 
-           render={()=>(
-             <Landing  movies={movies} page={page} paginate={paginate}/>
-           )}/>
+      <Route exact path='/' component={Landing}/>
  
     <Switch>  
 
@@ -93,5 +61,9 @@ const App = ()=>{
       </Provider>
   );
 }
+
+const mapStateToProps = state=>({
+
+})
 
 export default App;

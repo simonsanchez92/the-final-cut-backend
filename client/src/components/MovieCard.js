@@ -2,11 +2,13 @@
     import {Link} from 'react-router-dom';
     
     import toastr from 'toastr';
-    import './toastr.min.css'
+    import '../toastr.min.css'
 
 import {connect} from 'react-redux';
 
 import {addFavourite} from '../actions/movies';
+
+import setAlert from '../utils/setAlert';
 
  const MovieCard = ({movie, addFavourite, user}) => {
 
@@ -33,15 +35,8 @@ import {addFavourite} from '../actions/movies';
                 original_id: id
             }
         addFavourite(newMovie);
-        toastr.options = {
-            hideDuration: 800,
-            
-            timeOut: 3000,
-            positionClass: 'toast-bottom-center'
-          }
-          toastr.success(`You've added a new movie`, '')
-    
-        
+        }else{
+            setAlert('error', 'You must have an account')
         }
        
       

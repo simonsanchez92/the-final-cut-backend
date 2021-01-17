@@ -107,7 +107,7 @@ form input[type="text"]::placeholder {
   /* font-weight: 500; */
 }
 
-form input[type="button"] {
+form input[type="submit"] {
   /* width: 100px; */
   cursor: pointer;
   background-color: #c54b3d;

@@ -1,15 +1,16 @@
-import React, {Fragment, useState,useEffect} from 'react';
-import axios from 'axios';
+import React, {Fragment} from 'react';
+
 
 import SearchBar from './SearchBar';
 import MovieCard from './MovieCard';
 
 import {connect} from 'react-redux';
 
+import {paginate} from '../actions/movies';
 
- const Landing = ({movies, page, paginate}) => {
+ const Landing = ({movies, searchStr, page, paginate}) => {
 
-console.log(movies)
+
 //   const [genres, setGenres] = useState()
 
 
@@ -26,12 +27,13 @@ console.log(movies)
 
  const forward = ()=>{
      let newPage = page + 1;
-     paginate(newPage)
+     paginate(searchStr, newPage)
+   
  }
  const backward = ()=>{
      if(page > 1){
         let newPage = page - 1;
-        paginate(newPage)
+        paginate(searchStr, newPage)
      }
     
  }
@@ -65,10 +67,10 @@ console.log(movies)
     )
 }
 
-const mapStateToProps = (state, ownProps)=>({
+const mapStateToProps = (state)=>({
     movies: state.movies.movies,
-    page: ownProps.page,
-    paginate: ownProps.paginate
+    page: state.movies.page,
+    searchStr: state.movies.searchStr
 })
 
-export default connect(mapStateToProps)(Landing);
+export default connect(mapStateToProps, {paginate} )(Landing);

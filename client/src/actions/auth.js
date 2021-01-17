@@ -11,7 +11,8 @@ import {
     
 } from './types';
 
-import setAuthToken from '../utils/setAuthToken';
+import setAlert from '../utils/setAlert'
+
 
 import {loadFavourites} from './movies';
 
@@ -31,6 +32,8 @@ export const register = ({name, email, password})=> async dispatch =>{
     try {
      const res = await axios.post('http://localhost:5000/api/v1/auth/register', body, config);
       
+     
+    setAlert('success', 'User registered!')
     dispatch({
         type: REGISTER_SUCCESS,
         payload: res.data
@@ -39,8 +42,9 @@ export const register = ({name, email, password})=> async dispatch =>{
     dispatch(loadUser());
 
     } catch (err) {
-        const errors = err.response.data.errors;
-        console.log(errors)
+        const error = err.response.data.msg;
+        
+        setAlert('error', error);
 
         dispatch({
             type: REGISTER_FAIL  
@@ -66,7 +70,7 @@ export const loadUser = ()=> async dispatch =>{
 
         const res = await instance.get('/')
 
-        console.log(res)
+  
 
 
         dispatch({
@@ -74,13 +78,15 @@ export const loadUser = ()=> async dispatch =>{
             payload: res.data
         });
 
+   
+
         dispatch(loadFavourites(res.data.data._id));
 
     } catch (err) {
         dispatch({
             type: AUTH_ERROR
         });
-        console.log(err)
+       
     }
     
 
@@ -109,9 +115,12 @@ export const login = (email, password)=> async dispatch=>{
         });
 
         dispatch(loadUser());
+
+        setAlert('success', `Welcome!`);
     } catch (err) {
         
-        console.log(err)
+        setAlert('error', `${err.response.data.msg}`);
+        
         dispatch({
             type: LOGIN_FAIL 
         });
@@ -125,4 +134,7 @@ export const logout = ()=> async dispatch=>{
         dispatch({
             type: LOGOUT
         });
+
+        setAlert('error', 'User logged out');
+
 }
