@@ -1,19 +1,21 @@
-    import React, {Fragment} from 'react';
-    import {Link} from 'react-router-dom';
+import React, {Fragment} from 'react';
+import {Link} from 'react-router-dom';
     
-    import toastr from 'toastr';
-    import '../toastr.min.css'
-
 import {connect} from 'react-redux';
-
-import {addFavourite} from '../actions/movies';
-
+import {store} from '../store';
+import {addFavourite, deleteMovie, loadFavourites, getSingleMovie} from '../actions/movies';
+ 
 import setAlert from '../utils/setAlert';
 
- const MovieCard = ({movie, addFavourite, user}) => {
+
+import defaultPoster from '../img/default.jpg';
+
+
+const MovieCard = ({movie, addFavourite,getSingleMovie, user, favourites}) => {
 
     const IMG_PATH = 'https://image.tmdb.org/t/p/w1280';
     const  {poster_path,
+            backdrop_path,
             vote_average,
             original_title,
             release_date,
@@ -21,8 +23,9 @@ import setAlert from '../utils/setAlert';
             original_language,
             id} = movie;
 
+          
     const add = ()=>{
-        
+        console.log(backdrop_path)
         if(user){
             const newMovie = {
                 user:user._id,
@@ -32,6 +35,7 @@ import setAlert from '../utils/setAlert';
                 language: original_language,
                 overview: overview,
                 poster_path: IMG_PATH + poster_path,
+                backdrop_path: IMG_PATH + backdrop_path,
                 original_id: id
             }
         addFavourite(newMovie);
@@ -40,40 +44,67 @@ import setAlert from '../utils/setAlert';
         }
        
       
-    }    
+    } 
+    
+    const handleDelete = (userId, movieId) => {
+        favourites.forEach(movie=>{
+
+            if(movie.original_id === movieId){
+                store.dispatch(deleteMovie(userId, movie._id));
+                store.dispatch(loadFavourites(userId));
+            }
+        })
+    }
  
+    //Determine whether movie is in user's favourites
+    const favouriteBtn = (movieId)=>{
+        return favourites.some(movie=> movie.original_id === movieId )
+    };
+    
+     
+
     return (
         <div className="movie-card">
-         <i className="fas fa-tv"></i>
+         {/* <i className="fas fa-tv"></i> */}
        
         <div className="movie-img-container">
 
-        <img src={poster_path !== null ? IMG_PATH + poster_path : 'img/default.jpg'} alt={original_title}/>
+        <img src={poster_path !== null ? IMG_PATH + poster_path : defaultPoster} alt={original_title}/>
         
         <div className="card-overlay">
         
-        <div className='movie-rating'>
-            <i className="fas fa-star"></i>
-            <span>{vote_average}/10</span>
+        <div className='movie-title'>
+        <i className="fas fa-video"></i>
+            <span>{original_title}</span>
         </div>
 
         <ul>
-            {/* {
-                movieGenres.map(gnr=> <li key={gnr.id}>{gnr.name}</li>)
-            } */}
+            
             
         </ul>
        
         <div className="card-btns">
-            <Link className='btn btn-success see-more my-5' to={{
-            pathname:`movies/${id}`,
-            movieProps:{movie: movie}
-            }}>See more...</Link>
+
+            <span onClick={()=>getSingleMovie(id)}>
+            <Link  to={{
+            pathname:`movies/${id}`
+
+            }}><i className=" fas fa-plus"></i> See more</Link>
+            </span>
             
-            <div className="card-add-remove">
-            <button onClick={add} className='btn btn-success'>Add</button>
-            <button className='btn btn-danger'>X</button>
-            </div>
+           
+
+            {favouriteBtn(id) ? 
+                <Fragment>
+                <i onClick={()=>handleDelete(user._id, id)}className="fas fa-star"></i>
+                </Fragment>
+                :
+                <Fragment>
+                 <i  onClick={()=> add()}className="far fa-star "></i>
+                </Fragment>}
+            
+
+        
             
         </div>
             
@@ -95,8 +126,9 @@ import setAlert from '../utils/setAlert';
 
 const mapStateToProps = (state, ownProps)=>({
     movie: ownProps.movie,
-    user: state.auth.user
+    user: state.auth.user,
+    favourites: state.movies.favourites
 })
 
 
-export default connect(mapStateToProps, {addFavourite})(MovieCard);
+export default connect(mapStateToProps, {addFavourite,getSingleMovie})(MovieCard);

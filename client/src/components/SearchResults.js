@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect} from 'react';
+import React, {Fragment} from 'react';
 
 
 import SearchBar from './SearchBar';
@@ -6,12 +6,9 @@ import MovieCard from './MovieCard';
 
 import {connect} from 'react-redux';
 
-
 import {paginate} from '../actions/movies';
-import {getMovies} from '../actions/movies';
 
-
- const Landing = ({movies, searchStr, page, paginate, getMovies}) => {
+ const SearchResults = ({movies, searchStr, page, paginate}) => {
 
 
 //   const [genres, setGenres] = useState()
@@ -27,12 +24,6 @@ import {getMovies} from '../actions/movies';
 //     }
 //     fetchData();
 //   },[])
-
-
-useEffect(()=>{ 
-    getMovies(1);
-  },[])
-
 
  const forward = ()=>{
      let newPage = page + 1;
@@ -52,7 +43,7 @@ useEffect(()=>{
         <Fragment>
             <SearchBar/>
         <main className="main" id='main'>
-            <h2 id="search-text">Best rated Movies:</h2>
+            <h2 id="search-text">Results for '{searchStr}':</h2>
 
             <div className="movies-container" id='movies-container'>
 
@@ -64,6 +55,14 @@ useEffect(()=>{
         </div>
       </main>
 
+        <div className="pagination" id="pagination">
+            {page === 1 ? 
+            <button onClick={()=> backward()} className='btn' disabled><i className="far fa-hand-point-left"></i>Prev</button>
+                : 
+            <button onClick={()=> backward()} className='btn'><i className="far fa-hand-point-left"></i>Prev</button>
+            } 
+            <button onClick={()=> forward()} className='btn'>Next<i className="far fa-hand-point-right"></i></button>
+        </div>
         </Fragment>
     )
 }
@@ -74,4 +73,4 @@ const mapStateToProps = (state)=>({
     searchStr: state.movies.searchStr
 })
 
-export default connect(mapStateToProps, {paginate, getMovies} )(Landing);
+export default connect(mapStateToProps, {paginate} )(SearchResults);

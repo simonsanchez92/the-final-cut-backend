@@ -1,11 +1,13 @@
 import React, {useState} from 'react'
 
+import {Redirect, withRouter, useHistory} from 'react-router-dom';
+
 import {connect} from 'react-redux';
 
 import {searchMovies, setSearchStr} from '../actions/movies';
 
 
- const SearchBar = ({setSearchStr, searchMovies, page }) => {
+ const SearchBar = ({setSearchStr, searchMovies}) => {
 
     const [formData, setFormData]= useState('');
 
@@ -13,15 +15,18 @@ import {searchMovies, setSearchStr} from '../actions/movies';
         setFormData(e.target.value);
     }
 
+    let history = useHistory();
+
     const handleSubmit = async (e)=>{
         e.preventDefault();
         if(formData !== ''){
             setSearchStr(formData);
-            searchMovies(formData, page);
+            searchMovies(formData);
+            setFormData('');
+        history.push('/search')
         }
-       
-        setFormData('');
     }
+
 
     return (
              <div className="search-container container-fluid d-flex justify-content-center" 
@@ -41,6 +46,7 @@ import {searchMovies, setSearchStr} from '../actions/movies';
                id='search-input'/>
 
         <input className='search-form search-Btn btn'
+                // onClick={()=>redirect()}
                value='Search'
                type='submit'
                id='searchBtn'
@@ -53,7 +59,7 @@ import {searchMovies, setSearchStr} from '../actions/movies';
 }
 
 const mapStateToProps = state=>({
-    page: state.movies.page
+    
 });
 
 export default connect(mapStateToProps, {searchMovies, setSearchStr})(SearchBar);

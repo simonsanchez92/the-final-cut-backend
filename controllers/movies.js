@@ -77,6 +77,7 @@ exports.addFavourite = async (req, res, next)=>{
             language,
            overview,
            poster_path,
+           backdrop_path,
             original_id} = req.body
 
     try {
@@ -94,6 +95,7 @@ exports.addFavourite = async (req, res, next)=>{
             language,
             overview,
             poster_path,
+            backdrop_path,
             original_id
         });
 

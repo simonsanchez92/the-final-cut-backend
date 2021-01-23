@@ -1,9 +1,11 @@
 
 import {
           MOVIES_LOAD_SUCCESS,
+          MOVIES_LOAD_FAIL,
+          MOVIE_LOADED,
+          MOVIE_LOADED_FAIL,
           SEARCH_SUCCESS,
           SET_SEARCH_STR,
-          MOVIES_LOAD_FAIL,
           ADD_FAVOURITE,
           ADD_FAVOURITE_FAIL,
           LOAD_FAVOURITES,
@@ -13,14 +15,16 @@ import {
           DELETE_MOVIE_FAIL,
           PAGINATE_SUCCESS,
           PAGINATE_FAIL,
-          UPDATE_PAGE} from '../actions/types';
+          UPDATE_PAGE,
+          SEARCH_FAIL} from '../actions/types';
 
 
 const initialState = {
     searchStr: '',
     page: 1,
     movies: [],
-    favourites: []
+    favourites: [],
+    currentMovie: []
 }
 
 export default function(state = initialState, action){
@@ -34,9 +38,21 @@ export default function(state = initialState, action){
             ...state,
             movies: payload.data.results
         }
+        case SEARCH_FAIL:
+            return {
+                ...state,
+                movies: []  
+            }
+        case MOVIE_LOADED:
+            return{
+                ...state,
+                currentMovie: payload
+            }
+
         case SET_SEARCH_STR:
             return {
                 ...state,
+                page: 1,
                 searchStr: payload
             }
         case PAGINATE_SUCCESS:

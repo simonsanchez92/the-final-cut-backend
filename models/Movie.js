@@ -25,6 +25,9 @@ const MovieSchema = new mongoose.Schema({
     poster_path:{
         type: String
     },
+    backdrop_path:{
+        type: String
+    },
     original_id:{
         type: Number
     }

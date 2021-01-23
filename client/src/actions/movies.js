@@ -2,6 +2,8 @@ import axios from 'axios';
 
 import { MOVIES_LOAD_FAIL,
          MOVIES_LOAD_SUCCESS,
+         MOVIE_LOADED,
+         MOVIE_LOADED_FAIL,
          SEARCH_SUCCESS,
          SEARCH_FAIL,
          ADD_FAVOURITE,
@@ -37,6 +39,25 @@ export const getMovies = (page) => async dispatch =>{
     }
 }
 
+
+export const getSingleMovie = (id) => async dispatch =>{
+ 
+
+    try {
+        const res = await axios.get(` https://api.themoviedb.org/3/movie/${id}?api_key=4c0c205a5315c151196343cd53dbf96f&language=en-US`);
+
+        dispatch({
+            type: MOVIE_LOADED,
+            payload: res.data
+        })
+        
+    } catch (err) {
+        dispatch({
+            type: MOVIE_LOADED_FAIL
+        })
+    }
+}
+
 export const setSearchStr = (string) => async dispatch =>{
     try {
         dispatch({
@@ -48,9 +69,9 @@ export const setSearchStr = (string) => async dispatch =>{
     }
 }
 
-export const searchMovies = (title, page) => async dispatch =>{
+export const searchMovies = (title) => async dispatch =>{
     try {
-        const res = await axios.get(`http://localhost:5000/api/v1/movies/search/${title}/${page}`);
+        const res = await axios.get(`http://localhost:5000/api/v1/movies/search/${title}/1`);
 
         dispatch({
             type: SEARCH_SUCCESS,
@@ -91,7 +112,7 @@ export const paginate = (searchStr, page) => async dispatch =>{
 
 export const addFavourite = (movie)=> async dispatch=>{
 
-    const {user, title, average, release, language, overview, poster_path, original_id} = movie;
+    const {user, title, average, release, language, overview, poster_path, backdrop_path, original_id} = movie;
     const config = {
         headers: {
             'Content-type': 'application/json'
@@ -106,6 +127,7 @@ export const addFavourite = (movie)=> async dispatch=>{
             language,
             overview,
             poster_path,
+            backdrop_path,
             original_id
     }
 

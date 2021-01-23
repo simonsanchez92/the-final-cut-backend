@@ -34,7 +34,7 @@ const Login = ({isAuthenticated, login}) => {
     return <Redirect to ='/'/>
   }
     return (
-        
+        <main className='login'>
             <section className="register-box
     container
     py-5
@@ -84,7 +84,7 @@ Don't have an account? <Link to="/register" className='text-info'>Register</Link
 
 
 </section>
-       
+</main>
     )
 
 
