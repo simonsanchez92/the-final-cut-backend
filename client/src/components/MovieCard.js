@@ -11,7 +11,7 @@ import setAlert from '../utils/setAlert';
 import defaultPoster from '../img/default.jpg';
 
 
-const MovieCard = ({movie, addFavourite,getSingleMovie, user, favourites}) => {
+const MovieCard = ({movie, addFavourite, deleteMovie, loadFavourites,getSingleMovie, user, favourites}) => {
 
     const IMG_PATH = 'https://image.tmdb.org/t/p/w1280';
     const  {poster_path,
@@ -41,17 +41,18 @@ const MovieCard = ({movie, addFavourite,getSingleMovie, user, favourites}) => {
         addFavourite(newMovie);
         }else{
             setAlert('error', 'You must have an account')
-        }
-       
-      
+        } 
     } 
     
     const handleDelete = (userId, movieId) => {
         favourites.forEach(movie=>{
 
             if(movie.original_id === movieId){
-                store.dispatch(deleteMovie(userId, movie._id));
-                store.dispatch(loadFavourites(userId));
+                // store.dispatch(deleteMovie(userId, movie._id));
+                // store.dispatch(loadFavourites(userId));
+
+                deleteMovie(userId, movie._id);
+                loadFavourites(userId);
             }
         })
     }
@@ -131,4 +132,4 @@ const mapStateToProps = (state, ownProps)=>({
 })
 
 
-export default connect(mapStateToProps, {addFavourite,getSingleMovie})(MovieCard);
+export default connect(mapStateToProps, {addFavourite,getSingleMovie, deleteMovie, loadFavourites})(MovieCard);

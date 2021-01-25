@@ -1,31 +1,79 @@
 import React, {Fragment} from 'react'
-import {  Link } from 'react-router-dom';
+// import {  Link } from 'react-router-dom';
 
 import {connect} from 'react-redux';
 
+import {addFavourite, deleteMovie, loadFavourites} from '../actions/movies';
 
+import {store} from '../store';
+import setAlert from '../utils/setAlert';
 
 import SearchBar from './SearchBar';
 
- const Movie = ({ currentMovie}) => {
+ const Movie = ({ currentMovie, favourites, user, addFavourite, deleteMovie, loadFavourites}) => {
     const IMG_PATH = 'https://image.tmdb.org/t/p/w1280';
 
 
     
     const {original_title,
            overview,
+           id,
            vote_average,
            release_date,
            poster_path,
            backdrop_path,
            homepage,
+           original_language,
            production_countries,
            production_companies,
            runtime,
            revenue,
            tagline} =  currentMovie
  
+//  const companies = production_companies.filter((company) =>{
+//    return company.logo_path !== null
+//  }).map((comp,i)=> <li  className="company-logo-container mx-3 my-3">
+//     <img  key={comp.id} src={IMG_PATH + comp.logo_path} alt={comp.name}/>
+//     </li>);
 
+  //Determine whether movie is in user's favourites
+    const likeBtn = (movieId)=>{
+        return favourites.some(movie=> movie.original_id === movieId )
+    };
+
+    const add = ()=>{
+        
+        if(user){
+            const newMovie = {
+                user:user._id,
+                title: original_title,
+                average: vote_average,
+                release: release_date,
+                language: original_language,
+                overview: overview,
+                poster_path: IMG_PATH + poster_path,
+                backdrop_path: IMG_PATH + backdrop_path,
+                original_id: id
+            }
+        addFavourite(newMovie);
+        }else{
+            setAlert('error', 'You must have an account')
+        } 
+    } 
+
+    const handleDelete = (userId, movieId) => {
+        favourites.forEach(movie=>{
+
+            if(movie.original_id === movieId){
+                // store.dispatch(deleteMovie(userId, movie._id));
+                // store.dispatch(loadFavourites(userId));
+
+                deleteMovie(userId, movie._id);
+                loadFavourites(userId);
+            }
+        })
+    }
+ 
     return (
         <Fragment>
             <SearchBar/>
@@ -44,8 +92,19 @@ import SearchBar from './SearchBar';
                     justify-content-center
                     my-2 ">
 
-            <div className="poster-container col-sm-12 col-md-4 py-5">
+            <div className="poster-container col-sm-12 col-md-4 py-2 mx-2">
                 <img src={IMG_PATH + poster_path} alt={original_title}/>
+                {/* <button className='btn btn-primary my-3'>Like <i class="far fa-thumbs-up"></i></button> */}
+               
+                {likeBtn(id) ? 
+                <Fragment>
+                    <button onClick={()=>handleDelete(user._id, id)} className='btn btn-danger my-3'>Dislike <i class="far fa-thumbs-up"></i></button>
+                
+                </Fragment>
+                :
+                <Fragment>
+                 <button onClick={()=>add()} className='btn btn-primary my-3'>Like <i class="far fa-thumbs-up"></i></button>
+                </Fragment>}
             </div>
 
       
@@ -55,7 +114,7 @@ import SearchBar from './SearchBar';
                     col-md-8                
                     d-flex flex-column 
                     justify-content-top
-                    py-5
+                    py-4
                     align-items-top'>
 
             <p className='my-1 '>{overview}</p>
@@ -70,23 +129,18 @@ import SearchBar from './SearchBar';
             
             </ul>
 
-            <ul className='  companies list-group
-                             list-group-horizontal-md 
-                             py-4 d-flex flex-wrap 
-                             justify-content-start'>
-                {production_companies.map(company=>
-                <Fragment><li className="company-logo-container mx-3">
-                              <img src={IMG_PATH + company.logo_path} alt={company.name}/>
-                              </li></Fragment>)}
-                </ul>
+            {/* <ul className='companies list-group py-4 '>{companies}</ul> */}
 
             
             
         </div>
 
         </div>
+{/*         
+        <div className="movie-detail-btns container-fluid">
+            <Link to='/'><button className='return-btn btn btn-sm' id='return-btn'><i className="fas fa-undo-alt return-btn-icon"></i></button></Link>
 
-    <Link to='/'><button className='return-btn btn btn-sm' id='return-btn'><i className="fas fa-undo-alt return-btn-icon"></i> Return</button></Link>
+        </div> */}
     
 </main> 
 </Fragment>
@@ -94,7 +148,9 @@ import SearchBar from './SearchBar';
 }
 
 const mapStateToProps = (state)=>({
-    currentMovie: state.movies.currentMovie
+    currentMovie: state.movies.currentMovie,
+    user: state.auth.user,
+    favourites: state.movies.favourites
 })
 
-export default connect(mapStateToProps)(Movie);
+export default connect(mapStateToProps, {addFavourite, deleteMovie, loadFavourites})(Movie);

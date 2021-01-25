@@ -24,7 +24,6 @@ body {
 }
 #root {
   width: 100%;
-  height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -49,6 +48,11 @@ body {
 
 header {
   border-bottom: 2px solid #eeeeee44;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background: rgba(78, 68, 129, 0.95);
 }
 /* header h1 {
   padding: 0;
@@ -168,10 +172,13 @@ form input[type="button"]:hover {
 .main .movie-card .movie-img-container {
   position: relative;
   flex: 1;
-  border: 1px solid #eee;
+  border: 1px solid rgba(12, 11, 11, 0.116);
   height: 400px !important;
   border-radius: 5px;
   transition: border 0.2s ease-in;
+  -webkit-box-shadow: 2px 1px 24px 3px rgba(0, 0, 0, 0.44);
+  -moz-box-shadow: 2px 1px 24px 3px rgba(0, 0, 0, 0.44);
+  box-shadow: 2px 1px 24px 3px rgba(0, 0, 0, 0.44);
 }
 
 .main .movie-card .movie-img-container img {
@@ -287,11 +294,12 @@ form input[type="button"]:hover {
 
 .movie-detail {
   background-color: rgba(0, 0, 0, 0.137);
-  border-top: 3px solid rgba(0, 0, 0, 0.205);
-  border-bottom: 3px solid rgba(0, 0, 0, 0.205);
+  padding-bottom: 20px;
+  /* border-top: 3px solid rgba(0, 0, 0, 0.205);
+  border-bottom: 3px solid rgba(0, 0, 0, 0.205); */
   /* padding: 30px 10px; */
   /* width: 700px; */
-  max-width: 100%;
+  /* max-width: 100%; */
   /* display: none; */
   flex-direction: column;
   justify-content: center;
@@ -323,6 +331,7 @@ form input[type="button"]:hover {
   width: 350px;
 
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   /* border-right: 5px solid rgba(163, 51, 39, 0.6); */
@@ -331,11 +340,9 @@ form input[type="button"]:hover {
   cursor: pointer;
   border-radius: 4px;
   width: 100%;
-  border: 2px solid rgba(0, 0, 0, 0.164);
-  -webkit-box-shadow: -1px 9px 31px -1px rgba(163, 51, 39, 1);
-  -moz-box-shadow: -1px 9px 31px -1px rgba(163, 51, 39, 1);
-  box-shadow: -1px 2px 15px -1px rgba(163, 51, 39, 1);
-  transition: transform 0.1s ease-in-out;
+  -webkit-box-shadow: 2px 1px 24px 3px rgba(0, 0, 0, 0.44);
+  -moz-box-shadow: 2px 1px 24px 3px rgba(0, 0, 0, 0.44);
+  box-shadow: 2px 1px 24px 3px rgba(0, 0, 0, 0.44);
 }
 
 .movie-detail p {
@@ -414,6 +421,10 @@ form input[type="button"]:hover {
   color: #c54b3d;
 }
 
+.movie-detail-btns {
+  /* border: 2px solid black; */
+  /* width: 100%; */
+}
 .return-btn {
   cursor: pointer;
   /* ;
@@ -428,7 +439,6 @@ form input[type="button"]:hover {
 }
 
 .return-btn-icon {
-  padding-left: 10px;
   font-size: 1rem;
 }
 
@@ -469,7 +479,13 @@ form input[type="button"]:hover {
 /* Profile page */
 
 main.profile {
-  flex: 1;
+  min-height: 400px;
+}
+.profile-movies {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .profile-movie {
   background-color: rgba(0, 0, 0, 0.137);
@@ -516,8 +532,10 @@ main.profile {
   border: 0;
 }
 
-.companies {
-  /* border: 2px solid red; */
+/* .companies {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 .company-logo-container {
   width: 100px;
@@ -529,14 +547,13 @@ main.profile {
   height: 100%;
   border: 0;
   box-shadow: 0 0 0;
-}
+} */
 
 /* Footer section */
 
 footer {
   border-top: 1px solid #eeeeee44;
-  padding: 10px 40px;
-  height: 90px;
+  padding: 20px 40px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -583,29 +600,12 @@ footer p {
   .movie-card:first-child {
     margin-top: 0;
   }
+
+  .poster-container {
+    width: 250px;
+  }
 }
 
-@media (max-width: 700px) {
-  nav {
-    flex-direction: column;
-  }
-
-  /* Text Styles */
-  .x-large {
-    font-size: 3rem;
-  }
-
-  .large {
-    font-size: 2rem;
-  }
-
-  .lead {
-    font-size: 1rem;
-  }
-  .movie-detail p {
-    font-size: 1rem;
-  }
-}
 @media (max-width: 900px) {
   .main h2 {
     font-size: 22px;
@@ -628,11 +628,8 @@ footer p {
     border: 2px solid blue;
     width: 80%;
   } */
-  .movie-data-list li {
-    width: 100%;
-  }
   /*
-
+  
   .img-container img {
     border-radius: 4px;
     height: 100%;
@@ -642,18 +639,36 @@ footer p {
     -moz-box-shadow: -1px 9px 31px -1px rgba(163, 51, 39, 1);
     box-shadow: -1px 9px 31px -1px rgba(163, 51, 39, 1);
   }
-
   
-
-  .movie-data-list li {
-    font-size: 20px;
-  }
 
   .movie-data p {
     font-size: 18px;
    
     text-align: justify;
   } */
+
+  .movie-data-list li {
+    width: 100%;
+  }
+  /* .companies {
+    justify-content: center;
+  }
+  .movie-data-list li.company-logo-container {
+    width: 80px;
+    height: 80px;
+    list-style-type: none;
+    border: red;
+  }
+  .company-logo-container img {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    box-shadow: 0 0 0;
+  } */
+  .profile-movie {
+    width: 500px;
+  }
+
   footer {
     display: flex;
     flex-direction: column;
@@ -666,10 +681,60 @@ footer p {
   }
 }
 
+@media (max-width: 700px) {
+  nav {
+    flex-direction: column;
+  }
+
+  /* Text Styles */
+  .x-large {
+    font-size: 3rem;
+  }
+
+  .large {
+    font-size: 2rem;
+  }
+
+  .lead {
+    font-size: 1rem;
+  }
+  .movie-detail p {
+    font-size: 1rem;
+  }
+
+  .main .movie-card {
+    width: 250px;
+    margin: 40px 8px;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    border-radius: 5px;
+  }
+
+  .profile-movie {
+    /* width: 350px; */
+    width: 100%;
+  }
+}
+
 @media (max-width: 1100px) {
   .movie-data-list {
     width: 100%;
   }
+  .backdrop-img-container {
+    /* position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0; */
+    display: none;
+  }
+  /* .backdrop-img-container img {
+    height: 100%;
+    width: 100%;
+  } */
 }
 
 @media (min-width: 900px) {

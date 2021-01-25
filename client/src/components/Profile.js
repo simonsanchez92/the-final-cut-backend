@@ -1,16 +1,17 @@
 import React, { Fragment, useEffect, useState } from 'react'
 
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-
-import setAlert from '../utils/setAlert';
-
-import { deleteMovie, loadFavourites } from '../actions/movies'
-
-import {store} from '../store';
+import {Link} from 'react-router-dom';
 
 
-const Profile = ({ isAuthenticated, favs, deleteMovie, user }) => {
+// import setAlert from '../utils/setAlert';
+// import {store} from '../store';
+
+import { deleteMovie, loadFavourites, getSingleMovie } from '../actions/movies'
+
+
+
+const Profile = ({ isAuthenticated, favs, deleteMovie,loadFavourites, user, getSingleMovie}) => {
 
   const [auth, setAuth] = useState('');
 
@@ -28,11 +29,8 @@ const Profile = ({ isAuthenticated, favs, deleteMovie, user }) => {
 
   const handleDelete = (userId, movieId) => {
     deleteMovie(userId, movieId);
-    store.dispatch(loadFavourites(userId));
+    loadFavourites(userId);
   }
-
-
-console.log(favs)
 
   return (
     <main className='profile container-fluid my-4 px-4'>
@@ -51,11 +49,11 @@ console.log(favs)
           return <Fragment key={movie._id} >
             <div className="card mb-4 profile-movie">
               <div className="row no-gutters justify-content-between">
-                <div className="col-sm-4 col-lg-2">
+                <div className="col-sm-5  col-lg-2">
                   <img className='card-img-top' src={movie.poster_path} alt={movie.title} />
                 </div>
 
-                <div className="card-body col-sm-2" >
+                <div className="card-body col-sm-2 col-md-4" >
                     <h4 className="card-title ">{movie.title}</h4>
                     <ul className="list-group list-group-flush ">
                       <li className="list-group-item  px-0">Average: {movie.average}</li>
@@ -63,7 +61,10 @@ console.log(favs)
                       <li className="list-group-item  px-0">Language: {movie.language}</li>
                     </ul>
                     
-                    <a href="#" className="btn btn-success">See plot</a>
+                    <span  onClick={()=>getSingleMovie(movie.original_id)}
+                          className="btn btn-success">
+                    <Link  to={{pathname:`movies/${movie.original_id}`
+            }}>See plot</Link></span>
                     <a href="#" onClick={() => handleDelete(user._id, movie._id)} className="btn btn-danger mx-2">Remove</a>
                   
                   </div>
@@ -94,4 +95,4 @@ const mapStateToProps = state => ({
   user: state.auth.user
 })
 
-export default connect(mapStateToProps, { deleteMovie })(Profile)
+export default connect(mapStateToProps, { deleteMovie, loadFavourites, getSingleMovie})(Profile)
