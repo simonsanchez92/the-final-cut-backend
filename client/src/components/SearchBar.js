@@ -1,65 +1,59 @@
-import React, {useState} from 'react'
+import React, { useState } from "react";
 
-import {Redirect, withRouter, useHistory} from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 
-import {connect} from 'react-redux';
+import { connect } from "react-redux";
 
-import {searchMovies, setSearchStr} from '../actions/movies';
+import { searchMovies, setSearchStr } from "../actions/movies";
 
+const SearchBar = ({ setSearchStr, searchMovies }) => {
+  const [formData, setFormData] = useState("");
 
- const SearchBar = ({setSearchStr, searchMovies}) => {
+  const handleChange = (e) => {
+    setFormData(e.target.value);
+  };
 
-    const [formData, setFormData]= useState('');
+  let history = useHistory();
 
-    const handleChange = (e)=>{
-        setFormData(e.target.value);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (formData !== "") {
+      setSearchStr(formData);
+      searchMovies(formData);
+      setFormData("");
+      history.push("/search");
     }
+  };
 
-    let history = useHistory();
+  return (
+    <div
+      className="search-container container-fluid d-flex justify-content-center mb-5 mt-2"
+      id="search-container"
+    >
+      <form className="search-form  my-2" onSubmit={(e) => handleSubmit(e)}>
+        <div className="input-group ">
+          <input
+            className="search-input form-control"
+            type="text"
+            placeholder="Begin your search..."
+            onChange={(e) => handleChange(e)}
+            value={formData}
+            id="search-input"
+          />
 
-    const handleSubmit = async (e)=>{
-        e.preventDefault();
-        if(formData !== ''){
-            setSearchStr(formData);
-            searchMovies(formData);
-            setFormData('');
-        history.push('/search')
-        }
-    }
+          <input
+            className="btn btn-primary btn-sm "
+            value="Search"
+            type="submit"
+          />
+        </div>
+      </form>
+    </div>
+  );
+};
 
+const mapStateToProps = (state) => ({});
 
-    return (
-             <div className="search-container container-fluid d-flex justify-content-center" 
-                  id='search-container'>
-
-            <form className='search-form py-4 px-1' 
-                  id='search-form'
-                  onSubmit={(e)=> handleSubmit(e)}>
-        
-            <div className="input-group ">
-
-        <input className="search-input form-control" 
-               type="text" 
-               placeholder='Begin your search...'
-               onChange={(e)=>handleChange(e)}
-               value={formData}  
-               id='search-input'/>
-
-        <input className='search-form search-Btn btn'
-                // onClick={()=>redirect()}
-               value='Search'
-               type='submit'
-               id='searchBtn'
-               placeholder=""/>
-         </div>
-       
-    </form>
-</div>
-    )
-}
-
-const mapStateToProps = state=>({
-    
-});
-
-export default connect(mapStateToProps, {searchMovies, setSearchStr})(SearchBar);
+export default connect(mapStateToProps, { searchMovies, setSearchStr })(
+  SearchBar
+);

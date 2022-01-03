@@ -1,199 +1,195 @@
-import axios from 'axios';
+import axios from "axios";
 
-import { MOVIES_LOAD_FAIL,
-         MOVIES_LOAD_SUCCESS,
-         MOVIE_LOADED,
-         MOVIE_LOADED_FAIL,
-         SEARCH_SUCCESS,
-         SEARCH_FAIL,
-         ADD_FAVOURITE,
-         ADD_FAVOURITE_FAIL,
-         LOAD_FAVOURITES,
-         LOAD_FAVOURITES_FAIL,
-         MOVIE_DELETED,
-         DELETE_MOVIE_FAIL,
-         SET_SEARCH_STR,
-         UPDATE_PAGE,
-         PAGINATE_SUCCESS,
-         PAGINATE_FAIL} from './types';
+import {
+  MOVIES_LOAD_FAIL,
+  MOVIES_LOAD_SUCCESS,
+  MOVIE_LOADED,
+  MOVIE_LOADED_FAIL,
+  SEARCH_SUCCESS,
+  SEARCH_FAIL,
+  ADD_FAVOURITE,
+  ADD_FAVOURITE_FAIL,
+  LOAD_FAVOURITES,
+  LOAD_FAVOURITES_FAIL,
+  MOVIE_DELETED,
+  DELETE_MOVIE_FAIL,
+  SET_SEARCH_STR,
+  UPDATE_PAGE,
+  PAGINATE_SUCCESS,
+  PAGINATE_FAIL,
+} from "./types";
 
-import setAlert from '../utils/setAlert'
+import setAlert from "../utils/setAlert";
 
+export const getMovies = (page) => async (dispatch) => {
+  try {
+    const res = await axios.get(`http://localhost:5000/api/v1/movies/${page}`);
 
+    dispatch({
+      type: MOVIES_LOAD_SUCCESS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: MOVIES_LOAD_FAIL,
+    });
+  }
+};
 
-export const getMovies = (page) => async dispatch =>{
- 
+export const getSingleMovie = (id) => async (dispatch) => {
+  try {
+    const res = await axios.get(
+      ` https://api.themoviedb.org/3/movie/${id}?api_key=4c0c205a5315c151196343cd53dbf96f&language=en-US`
+    );
 
-    try {
-        const res = await axios.get(`http://localhost:5000/api/v1/movies/${page}`);
+    dispatch({
+      type: MOVIE_LOADED,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: MOVIE_LOADED_FAIL,
+    });
+  }
+};
 
-        dispatch({
-            type: MOVIES_LOAD_SUCCESS,
-            payload: res.data
-        })
-        
-    } catch (err) {
-        dispatch({
-            type: MOVIES_LOAD_FAIL
-        })
-    }
-}
+export const setSearchStr = (string) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SET_SEARCH_STR,
+      payload: string,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
+export const searchMovies = (title) => async (dispatch) => {
+  try {
+    const res = await axios.get(
+      `http://localhost:5000/api/v1/movies/search/${title}/1`
+    );
 
-export const getSingleMovie = (id) => async dispatch =>{
- 
+    dispatch({
+      type: SEARCH_SUCCESS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: SEARCH_FAIL,
+    });
+  }
+};
 
-    try {
-        const res = await axios.get(` https://api.themoviedb.org/3/movie/${id}?api_key=4c0c205a5315c151196343cd53dbf96f&language=en-US`);
+export const paginate = (searchStr, page) => async (dispatch) => {
+  try {
+    const res = await axios.get(
+      `http://localhost:5000/api/v1/movies/search/${searchStr}/${page}`
+    );
 
-        dispatch({
-            type: MOVIE_LOADED,
-            payload: res.data
-        })
-        
-    } catch (err) {
-        dispatch({
-            type: MOVIE_LOADED_FAIL
-        })
-    }
-}
+    dispatch({
+      type: PAGINATE_SUCCESS,
+      payload: res.data,
+    });
 
-export const setSearchStr = (string) => async dispatch =>{
-    try {
-        dispatch({
-            type: SET_SEARCH_STR,
-            payload: string
-        })
-    } catch (err) {
-      console.log(err);
-    }
-}
+    dispatch({
+      type: UPDATE_PAGE,
+      payload: page,
+    });
+  } catch (err) {
+    dispatch({
+      type: PAGINATE_FAIL,
+    });
+  }
+};
 
-export const searchMovies = (title) => async dispatch =>{
-    try {
-        const res = await axios.get(`http://localhost:5000/api/v1/movies/search/${title}/1`);
+export const addFavourite = (movie) => async (dispatch) => {
+  const {
+    user,
+    title,
+    average,
+    release,
+    language,
+    overview,
+    poster_path,
+    backdrop_path,
+    original_id,
+  } = movie;
+  const config = {
+    headers: {
+      "Content-type": "application/json",
+    },
+  };
 
-        dispatch({
-            type: SEARCH_SUCCESS,
-            payload: res.data
-        })
-        
-        
-    } catch (err) {
-        dispatch({
-            type: SEARCH_FAIL
-        })
-    }
-}
+  const newMovie = {
+    user,
+    title,
+    average,
+    release,
+    language,
+    overview,
+    poster_path,
+    backdrop_path,
+    original_id,
+  };
 
-export const paginate = (searchStr, page) => async dispatch =>{
+  const body = JSON.stringify(newMovie);
 
-    try {
-        const res = await axios.get(`http://localhost:5000/api/v1/movies/search/${searchStr}/${page}`);
+  try {
+    const res = await axios.post(
+      "http://localhost:5000/api/v1/movies",
+      body,
+      config
+    );
 
-        dispatch({
-            type: PAGINATE_SUCCESS,
-            payload: res.data
-        })
+    setAlert("success", "Movie added!");
 
-        dispatch({
-            type: UPDATE_PAGE,
-            payload: page
-        })
-        
-        
-    } catch (err) {
-        dispatch({
-            type: PAGINATE_FAIL
-        })
-    }
-}
+    dispatch({
+      type: ADD_FAVOURITE,
+      payload: res.data,
+    });
+  } catch (err) {
+    setAlert("error", "You've already added this movie");
+    dispatch({
+      type: ADD_FAVOURITE_FAIL,
+    });
+  }
+};
 
+export const loadFavourites = (user) => async (dispatch) => {
+  try {
+    const res = await axios.get(
+      `http://localhost:5000/api/v1/users/${user}/favs`
+    );
 
-export const addFavourite = (movie)=> async dispatch=>{
+    dispatch({
+      type: LOAD_FAVOURITES,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: LOAD_FAVOURITES_FAIL,
+    });
+  }
+};
 
-    const {user, title, average, release, language, overview, poster_path, backdrop_path, original_id} = movie;
-    const config = {
-        headers: {
-            'Content-type': 'application/json'
-        }
-    }
+export const deleteMovie = (userId, movieId) => async (dispatch) => {
+  try {
+    await axios.delete(
+      `http://localhost:5000/api/v1/movies/${userId}/${movieId}`
+    );
 
-    const newMovie = {
-            user,
-            title,
-            average,
-            release,
-            language,
-            overview,
-            poster_path,
-            backdrop_path,
-            original_id
-    }
+    setAlert("deleted", "Movie deleted");
 
-    const body = JSON.stringify(newMovie);
-
-    try {
-     const res = await axios.post('http://localhost:5000/api/v1/movies', body, config);
-    
-     setAlert('success', 'Movie added!')
-
-     dispatch({
-         type: ADD_FAVOURITE,
-         payload: res.data
-     })
-
-    } catch (err) {
-       
-        setAlert('error', "You've already added this movie")
-        dispatch({
-            type: ADD_FAVOURITE_FAIL  
-        });
-    }
-
-}
-
-export const loadFavourites = (user)=> async dispatch=>{
-
-        try {
-
-            const res = await axios.get(`http://localhost:5000/api/v1/users/${user}/favs`);
-
-            dispatch({
-                type: LOAD_FAVOURITES,
-                payload: res.data
-            })
-
-        } catch (err) {
-            dispatch({
-                type: LOAD_FAVOURITES_FAIL
-            })
-        }
-
-        
-}
-
-
-export const deleteMovie = (userId, movieId)=> async dispatch=>{
-
-    try {
-
-       await axios.delete(`http://localhost:5000/api/v1/movies/${userId}/${movieId}`);
-
-       
-     setAlert('deleted', 'Movie deleted');
-
-        dispatch({
-            type: MOVIE_DELETED
-        })
-
-    
-
-    } catch (err) {
-        dispatch({
-            type: DELETE_MOVIE_FAIL
-        })
-    }
-
-    
-}
+    dispatch({
+      type: MOVIE_DELETED,
+      payload: {
+        id: movieId,
+      },
+    });
+  } catch (err) {
+    dispatch({
+      type: DELETE_MOVIE_FAIL,
+    });
+  }
+};
