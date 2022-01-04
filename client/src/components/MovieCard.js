@@ -1,14 +1,7 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
-
 import { connect } from "react-redux";
-import { store } from "../store";
-import {
-  addFavourite,
-  deleteMovie,
-  loadFavourites,
-  getSingleMovie,
-} from "../actions/movies";
+import { addFavourite, deleteMovie, getSingleMovie } from "../actions/movies";
 
 import setAlert from "../utils/setAlert";
 
@@ -79,9 +72,6 @@ const MovieCard = ({
             <i className="fas fa-video"></i>
             <span>{original_title}</span>
           </div>
-
-          <ul></ul>
-
           <div className="card-btns">
             <span onClick={() => getSingleMovie(id)}>
               <Link
@@ -129,5 +119,4 @@ export default connect(mapStateToProps, {
   addFavourite,
   getSingleMovie,
   deleteMovie,
-  loadFavourites,
 })(MovieCard);

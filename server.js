@@ -1,6 +1,5 @@
 const express = require("express");
 const path = require("path");
-const dotenv = require("dotenv").config({ path: "./config/config.env" });
 
 const connectDB = require("./config/db");
 
@@ -24,6 +23,16 @@ const users = require("./routes/users");
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/movies", movies);
 app.use("/api/v1/users", users);
+
+// Serve static assets in production
+if (process.env.NODE_ENV === "production") {
+  // Set static folder
+  app.use(express.static("client/build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
 
 const PORT = process.env.PORT || 5000;
 

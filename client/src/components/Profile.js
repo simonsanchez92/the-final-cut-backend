@@ -1,18 +1,12 @@
 import React, { Fragment, useEffect, useState } from "react";
-
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-
-// import setAlert from '../utils/setAlert';
-// import {store} from '../store';
-
-import { deleteMovie, loadFavourites, getSingleMovie } from "../actions/movies";
+import { deleteMovie, getSingleMovie } from "../actions/movies";
 
 const Profile = ({
   isAuthenticated,
   favs,
   deleteMovie,
-  loadFavourites,
   user,
   getSingleMovie,
 }) => {
@@ -24,13 +18,8 @@ const Profile = ({
     }
   }, []);
 
-  // if(!auth){
-  //     return <Redirect to='/'/>
-  // }
-
   const handleDelete = (userId, movieId) => {
     deleteMovie(userId, movieId);
-    loadFavourites(userId);
   };
 
   return (
@@ -122,6 +111,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   deleteMovie,
-  loadFavourites,
   getSingleMovie,
 })(Profile);

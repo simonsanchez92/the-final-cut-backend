@@ -9,19 +9,6 @@ import { paginate } from "../actions/movies";
 import { getMovies } from "../actions/movies";
 
 const Landing = ({ movies, searchStr, page, paginate, getMovies }) => {
-  //   const [genres, setGenres] = useState()
-
-  //   useEffect(()=>{
-  //     async function fetchData(){
-  //       const API_URL =`https://api.themoviedb.org/3/genre/movie/list?api_key=4c0c205a5315c151196343cd53dbf96f&language=en-US`;
-
-  //       const res = await axios.get(API_URL);
-  //       const data = await res.data.genres;
-  //       setGenres(data);
-  //     }
-  //     fetchData();
-  //   },[])
-
   useEffect(() => {
     getMovies(1);
   }, [getMovies]);
@@ -30,7 +17,9 @@ const Landing = ({ movies, searchStr, page, paginate, getMovies }) => {
     <Fragment>
       <SearchBar />
       <main className="main" id="main">
-        <h2 id="search-text">Best rated Movies:</h2>
+        <h2 id="search-text" className="text-uppercase px-3 font-weight-light">
+          Best rated Movies:
+        </h2>
 
         <div className="movies-container" id="movies-container">
           {movies === undefined

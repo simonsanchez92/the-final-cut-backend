@@ -124,7 +124,6 @@ form input[type="button"]:hover {
   position: relative;
   display: flex;
   flex-direction: column;
-
   border-radius: 5px;
 }
 
@@ -222,7 +221,7 @@ form input[type="button"]:hover {
 }
 .main .movie-img-container:hover .card-overlay {
   cursor: pointer;
-  display: flex;
+  /* display: flex; */
   opacity: 1;
 }
 .main .movie-img-container:hover button {
@@ -242,11 +241,10 @@ form input[type="button"]:hover {
 
 /* End of Cards */
 
-.main h2 {
-  font-size: 42px;
-  color: #c54b3d;
-  padding: 20px;
-  background-color: transparent;
+#search-text {
+  /* font-size: 42px; */
+  /* color: #c54b3d; */
+  /* padding: 20px; */
 }
 
 .movie-detail {
@@ -285,42 +283,26 @@ form input[type="button"]:hover {
   box-shadow: 2px 1px 24px 3px rgba(0, 0, 0, 0.44);
 }
 
-.movie-detail p {
-  font-size: 1.2rem;
+.movie-overview {
+  font-size: 1.1rem;
 }
 
 /* Register / sign in */
-
-.form div input[type="text"],
-.form input[type="email"],
-.form input[type="password"] {
-  font-size: 0.9rem;
-}
 
 .register-btn {
   width: 100%;
 }
 
 .movie-data-list li {
-  /* 
-  padding: 8px 0;
-  font-size: 22px;
-  font-weight: 900; */
-
   list-style-type: none;
 }
 .movie-data-list li .fa-star {
   color: #c54b3d;
 }
 
-.movie-detail-btns {
-  /* border: 2px solid black; */
-  /* width: 100%; */
-}
 .return-btn {
   cursor: pointer;
-  /* ;
-  border: 2px solid #a7a0b4de; */
+
   background-color: #c54b3d;
   font-size: 1.2rem;
   border: 1px solid #c54b3d;

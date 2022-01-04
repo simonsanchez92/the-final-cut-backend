@@ -48,7 +48,10 @@ const Register = ({ register, isAuthenticated }) => {
           <i className="fas fa-user"></i> Create Your Account
         </p>
 
-        <form className="form py-3" onSubmit={(e) => handleSubmit(e)}>
+        <form
+          className="form  register-form py-3 "
+          onSubmit={(e) => handleSubmit(e)}
+        >
           <div className="mb-3">
             <input
               type="text"

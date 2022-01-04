@@ -4,7 +4,9 @@
   "description": "Backend for The Final Cut application",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server"
+    "start": "node server.js",
+    "dev": "nodemon server",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "Simon Sanchez",
   "license": "ISC",

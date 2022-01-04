@@ -28,11 +28,12 @@ export const register =
     const body = JSON.stringify(newUser);
 
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/v1/auth/register",
-        body,
-        config
-      );
+      // const res = await axios.post(
+      //   "http://localhost:5000/api/v1/auth/register",
+      //   body,
+      //   config
+      // );
+      const res = await axios.post(`/api/v1/auth/register`, body, config);
 
       setAlert("success", "User registered!");
       dispatch({
@@ -53,13 +54,13 @@ export const register =
   };
 
 export const loadUser = () => async (dispatch) => {
-  // if(localStorage.token){
-  //     setAuthToken(localStorage.token);
-  // }
-
   try {
+    // const instance = axios.create({
+    //   baseURL: "http://localhost:5000/api/v1/auth/",
+    // });
+
     const instance = axios.create({
-      baseURL: "http://localhost:5000/api/v1/auth/",
+      baseURL: `api/v1/auth/`,
     });
 
     instance.defaults.headers.common["x-auth-token"] = localStorage.token;
@@ -94,11 +95,13 @@ export const login = (email, password) => async (dispatch) => {
   const body = JSON.stringify(newUser);
 
   try {
-    const res = await axios.post(
-      "http://localhost:5000/api/v1/auth/login",
-      body,
-      config
-    );
+    // const res = await axios.post(
+    //   "http://localhost:5000/api/v1/auth/login",
+    //   body,
+    //   config
+    // );
+
+    const res = await axios.post(`/api/v1/auth/login`, body, config);
 
     dispatch({
       type: LOGIN_SUCCESS,

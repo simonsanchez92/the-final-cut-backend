@@ -23,7 +23,8 @@ import setAlert from "../utils/setAlert";
 
 export const getMovies = (page) => async (dispatch) => {
   try {
-    const res = await axios.get(`http://localhost:5000/api/v1/movies/${page}`);
+    // const res = await axios.get(`http://localhost:5000/api/v1/movies/${page}`);
+    const res = await axios.get(`/api/v1/movies/${page}`);
 
     dispatch({
       type: MOVIES_LOAD_SUCCESS,
@@ -66,9 +67,11 @@ export const setSearchStr = (string) => async (dispatch) => {
 
 export const searchMovies = (title) => async (dispatch) => {
   try {
-    const res = await axios.get(
-      `http://localhost:5000/api/v1/movies/search/${title}/1`
-    );
+    // const res = await axios.get(
+    //   `http://localhost:5000/api/v1/movies/search/${title}/1`
+    // );
+
+    const res = await axios.get(`/api/v1/movies/search/${title}/1`);
 
     dispatch({
       type: SEARCH_SUCCESS,
@@ -83,9 +86,11 @@ export const searchMovies = (title) => async (dispatch) => {
 
 export const paginate = (searchStr, page) => async (dispatch) => {
   try {
-    const res = await axios.get(
-      `http://localhost:5000/api/v1/movies/search/${searchStr}/${page}`
-    );
+    // const res = await axios.get(
+    //   `http://localhost:5000/api/v1/movies/search/${searchStr}/${page}`
+    // );
+
+    const res = await axios.get(`/api/v1/movies/search/${searchStr}/${page}`);
 
     dispatch({
       type: PAGINATE_SUCCESS,
@@ -136,11 +141,12 @@ export const addFavourite = (movie) => async (dispatch) => {
   const body = JSON.stringify(newMovie);
 
   try {
-    const res = await axios.post(
-      "http://localhost:5000/api/v1/movies",
-      body,
-      config
-    );
+    // const res = await axios.post(
+    //   "http://localhost:5000/api/v1/movies",
+    //   body,
+    //   config
+    // );
+    const res = await axios.post(`/api/v1/movies`, body, config);
 
     setAlert("success", "Movie added!");
 
@@ -158,9 +164,10 @@ export const addFavourite = (movie) => async (dispatch) => {
 
 export const loadFavourites = (user) => async (dispatch) => {
   try {
-    const res = await axios.get(
-      `http://localhost:5000/api/v1/users/${user}/favs`
-    );
+    // const res = await axios.get(
+    //   `http://localhost:5000/api/v1/users/${user}/favs`
+    // );
+    const res = await axios.get(`/api/v1/users/${user}/favs`);
 
     dispatch({
       type: LOAD_FAVOURITES,
@@ -175,9 +182,11 @@ export const loadFavourites = (user) => async (dispatch) => {
 
 export const deleteMovie = (userId, movieId) => async (dispatch) => {
   try {
-    await axios.delete(
-      `http://localhost:5000/api/v1/movies/${userId}/${movieId}`
-    );
+    // await axios.delete(
+    //   `http://localhost:5000/api/v1/movies/${userId}/${movieId}`
+    // );
+
+    await axios.delete(`/api/v1/movies/${userId}/${movieId}`);
 
     setAlert("deleted", "Movie deleted");
 

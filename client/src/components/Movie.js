@@ -58,7 +58,7 @@ const Movie = ({
       };
       addFavourite(newMovie);
     } else {
-      setAlert("error", "You must have an account");
+      setAlert("error", "You must be logged in");
     }
   };
 
@@ -125,9 +125,9 @@ const Movie = ({
                     py-4
                     align-items-top"
           >
-            <p className="my-1 ">{overview}</p>
+            <p className="my-1 movie-overview ">{overview}</p>
 
-            <ul className="list-group list-group-horizontal-md py-4 d-flex flex-wrap   align-items-center">
+            <ul className="list-group list-group-horizontal-md py-4 d-flex flex-wrap align-items-center">
               <li className="py-2 my-2">
                 <i className="fas fa-star "></i> imdbRating: {vote_average}/10
               </li>
@@ -148,8 +148,6 @@ const Movie = ({
                 <i className="fas fa-star "></i> Revenue: ${revenue}
               </li>
             </ul>
-
-            {/* <ul className='companies list-group py-4 '>{companies}</ul> */}
           </div>
         </div>
 
