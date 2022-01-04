@@ -60,7 +60,7 @@ export const loadUser = () => async (dispatch) => {
     // });
 
     const instance = axios.create({
-      baseURL: `api/v1/auth/`,
+      baseURL: `/api/v1/auth/`,
     });
 
     instance.defaults.headers.common["x-auth-token"] = localStorage.token;
