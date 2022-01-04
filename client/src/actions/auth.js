@@ -112,8 +112,8 @@ export const login = (email, password) => async (dispatch) => {
 
     setAlert("success", `Welcome!`);
   } catch (err) {
+    console.log(err.response);
     setAlert("error", `${err.response.data.msg}`);
-
     dispatch({
       type: LOGIN_FAIL,
     });
