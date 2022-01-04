@@ -1,4 +1,4 @@
 {
   "MONGO_URI": "mongodb+srv://simonsanchez:harvester92@thefinalcut.ryrow.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-  "JWTSECRET": "thisisasecretjwtkey"
+  "jwtSecret": "thisisasecretjwtkey"
 }

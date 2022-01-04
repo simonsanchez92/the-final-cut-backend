@@ -2,6 +2,9 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
+const config = require("config");
+const JWTSECRET = config.get("jwtSecret");
+
 // @Description - Register user
 // @Route - POST  /api/v1/auth/register
 // @access - Public
@@ -37,19 +40,13 @@ exports.register = async (req, res, next) => {
       },
     };
 
-    jwt.sign(
-      payload,
-      `${process.env.JWTSECRET}`,
-      { expiresIn: 360000 },
-      (err, token) => {
-        if (err) {
-          throw err;
-        }
-        res.json({ token });
+    jwt.sign(payload, `${JWTSECRET}`, { expiresIn: 360000 }, (err, token) => {
+      if (err) {
+        throw err;
       }
-    );
+      res.json({ token });
+    });
   } catch (err) {
-    console.log(err);
     res.status(500).json({
       success: false,
       data: "Internal server error",
@@ -121,15 +118,10 @@ exports.login = async (req, res, next) => {
       },
     };
 
-    jwt.sign(
-      payload,
-      process.env.JWTSECRET,
-      { expiresIn: 360000 },
-      (err, token) => {
-        if (err) throw err;
-        return res.json({ token });
-      }
-    );
+    jwt.sign(payload, JWTSECRET, { expiresIn: 360000 }, (err, token) => {
+      if (err) throw err;
+      return res.json({ token });
+    });
   } catch (err) {
     res.status(500).send("Server error!");
   }
