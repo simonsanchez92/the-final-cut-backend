@@ -30,15 +30,17 @@ const App = () => {
       <PersistGate loading={null} persistor={persistor}>
         <Router>
           <Header />
-          <Route exact path="/" component={Landing} />
 
-          <Switch>
-            <Route exact path="/search" component={SearchResults} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/profile" component={Profile} />
-            <Route exact path="/movies/:id" component={Movie} />
-          </Switch>
+          <main className="main " id="main">
+            <Switch>
+              <Route exact path="/" component={Landing} />
+              <Route exact path="/search" component={SearchResults} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/profile" component={Profile} />
+              <Route exact path="/movies/:id" component={Movie} />
+            </Switch>
+          </main>
           <Footer />
         </Router>
       </PersistGate>

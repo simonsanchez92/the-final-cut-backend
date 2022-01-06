@@ -27,7 +27,7 @@ const SearchBar = ({ setSearchStr, searchMovies }) => {
 
   return (
     <div
-      className="search-container container-fluid d-flex justify-content-center mb-5 mt-2"
+      className="search-container container-fluid d-flex justify-content-center mb-5 mt-2 "
       id="search-container"
     >
       <form className="search-form  my-2" onSubmit={(e) => handleSubmit(e)}>

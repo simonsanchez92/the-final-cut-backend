@@ -16,17 +16,15 @@ const Landing = ({ movies, searchStr, page, paginate, getMovies }) => {
   return (
     <Fragment>
       <SearchBar />
-      <main className="main" id="main">
-        <h2 id="search-text" className="text-uppercase px-3 font-weight-light">
-          Best rated Movies:
-        </h2>
+      <h2 id="search-text" className="text-uppercase px-3 font-weight-light">
+        Best rated Movies:
+      </h2>
 
-        <div className="movies-container" id="movies-container">
-          {movies === undefined
-            ? ""
-            : movies.map((movie) => <MovieCard key={movie.id} movie={movie} />)}
-        </div>
-      </main>
+      <div className="d-flex flex-row justify-content-around flex-wrap px-4 pb-4">
+        {movies === undefined
+          ? ""
+          : movies.map((movie) => <MovieCard key={movie.id} movie={movie} />)}
+      </div>
     </Fragment>
   );
 };

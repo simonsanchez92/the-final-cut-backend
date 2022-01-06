@@ -35,17 +35,18 @@ const SearchResults = ({ movies, searchStr, page, paginate }) => {
   return (
     <Fragment>
       <SearchBar />
-      <main className="main" id="main">
-        <h2 id="search-text">Results for '{searchStr}':</h2>
 
-        <div className="movies-container" id="movies-container">
-          {movies === undefined
-            ? ""
-            : movies.map((movie) => <MovieCard key={movie.id} movie={movie} />)}
-        </div>
-      </main>
+      <h2 className="px-2" id="search-text ">
+        Results for '{searchStr}':
+      </h2>
 
-      <div className="pagination" id="pagination">
+      <div className="movies-container  d-flex flex-row justify-content-around flex-wrap px-4 pb-4">
+        {movies === undefined
+          ? ""
+          : movies.map((movie) => <MovieCard key={movie.id} movie={movie} />)}
+      </div>
+
+      <div className="pagination py-4" id="pagination">
         {page === 1 ? (
           <button onClick={() => backward()} className="btn" disabled>
             <i className="far fa-hand-point-left"></i>Prev

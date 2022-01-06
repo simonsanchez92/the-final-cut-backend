@@ -24,7 +24,7 @@ const Register = ({ register, isAuthenticated }) => {
     if (password === password2) {
       register({ name, email, password });
     } else {
-      alert("Passwords do not match!");
+      register({});
     }
   };
   if (isAuthenticated) {

@@ -17,36 +17,35 @@ import { loadFavourites } from "./movies";
 export const register =
   ({ name, email, password }) =>
   async (dispatch) => {
-    const config = {
-      headers: {
-        "Content-type": "application/json",
-      },
-    };
+    //In case passwords matched
+    if (password) {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      const newUser = { name, email, password };
+      const body = JSON.stringify(newUser);
 
-    const newUser = { name, email, password };
+      try {
+        const res = await axios.post(`/api/v1/auth/register`, body, config);
 
-    const body = JSON.stringify(newUser);
+        setAlert("success", "User registered!");
+        dispatch({
+          type: REGISTER_SUCCESS,
+          payload: res.data,
+        });
 
-    try {
-      // const res = await axios.post(
-      //   "http://localhost:5000/api/v1/auth/register",
-      //   body,
-      //   config
-      // );
-      const res = await axios.post(`/api/v1/auth/register`, body, config);
-
-      setAlert("success", "User registered!");
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: res.data,
-      });
-
-      dispatch(loadUser());
-    } catch (err) {
-      const error = err.response.data.msg;
-
-      setAlert("error", error);
-
+        dispatch(loadUser());
+      } catch (err) {
+        const errorMsg = err.response.data.msg;
+        setAlert("error", errorMsg);
+        dispatch({
+          type: REGISTER_FAIL,
+        });
+      }
+    } else {
+      setAlert("error", "Passwords do not match");
       dispatch({
         type: REGISTER_FAIL,
       });
@@ -54,27 +53,28 @@ export const register =
   };
 
 export const loadUser = () => async (dispatch) => {
-  try {
-    // const instance = axios.create({
-    //   baseURL: "http://localhost:5000/api/v1/auth/",
-    // });
+  if (localStorage.token) {
+    try {
+      const instance = axios.create({
+        baseURL: `/api/v1/auth/`,
+      });
 
-    const instance = axios.create({
-      baseURL: `/api/v1/auth/`,
-    });
+      instance.defaults.headers.common["x-auth-token"] = localStorage.token;
 
-    instance.defaults.headers.common["x-auth-token"] = localStorage.token;
-    //   const res = await axios.get('http://localhost:5000/api/v1/auth/');
+      const res = await instance.get("/");
 
-    const res = await instance.get("/");
+      dispatch({
+        type: USER_LOADED,
+        payload: res.data,
+      });
 
-    dispatch({
-      type: USER_LOADED,
-      payload: res.data,
-    });
-
-    dispatch(loadFavourites(res.data.data._id));
-  } catch (err) {
+      dispatch(loadFavourites(res.data.data._id));
+    } catch (err) {
+      dispatch({
+        type: AUTH_ERROR,
+      });
+    }
+  } else {
     dispatch({
       type: AUTH_ERROR,
     });
@@ -95,12 +95,6 @@ export const login = (email, password) => async (dispatch) => {
   const body = JSON.stringify(newUser);
 
   try {
-    // const res = await axios.post(
-    //   "http://localhost:5000/api/v1/auth/login",
-    //   body,
-    //   config
-    // );
-
     const res = await axios.post(`/api/v1/auth/login`, body, config);
 
     dispatch({

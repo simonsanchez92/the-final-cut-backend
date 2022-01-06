@@ -1,19 +1,13 @@
 import {
   MOVIES_LOAD_SUCCESS,
-  MOVIES_LOAD_FAIL,
   MOVIE_LOADED,
-  MOVIE_LOADED_FAIL,
   SEARCH_SUCCESS,
   SET_SEARCH_STR,
   ADD_FAVOURITE,
-  ADD_FAVOURITE_FAIL,
   LOAD_FAVOURITES,
-  LOAD_FAVOURITES_FAIL,
   LOGOUT,
   MOVIE_DELETED,
-  DELETE_MOVIE_FAIL,
   PAGINATE_SUCCESS,
-  PAGINATE_FAIL,
   UPDATE_PAGE,
   SEARCH_FAIL,
 } from "../actions/types";
@@ -26,7 +20,7 @@ const initialState = {
   currentMovie: [],
 };
 
-export default function (state = initialState, action) {
+export default function moviesReducer(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
@@ -81,7 +75,6 @@ export default function (state = initialState, action) {
         favourites: [],
       };
     case MOVIE_DELETED: {
-      console.log(payload);
       return {
         ...state,
         favourites: state.favourites.filter(

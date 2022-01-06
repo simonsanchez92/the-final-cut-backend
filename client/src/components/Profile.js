@@ -10,13 +10,13 @@ const Profile = ({
   user,
   getSingleMovie,
 }) => {
-  const [auth, setAuth] = useState("");
+  const [auth, setAuth] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
-      setAuth(isAuthenticated);
+      setAuth(true);
     }
-  }, []);
+  }, [isAuthenticated]);
 
   const handleDelete = (userId, movieId) => {
     deleteMovie(userId, movieId);
@@ -25,7 +25,7 @@ const Profile = ({
   return (
     <main className="profile container-fluid my-4 px-4">
       <h2 className="text-justify-left">My favourite films</h2>
-      {favs.length < 1 && isAuthenticated && (
+      {favs.length < 1 && auth && (
         <Fragment>
           <h2>You haven't added any movies yet</h2>
         </Fragment>
@@ -37,7 +37,7 @@ const Profile = ({
       container-fluid
       py-4"
       >
-        {isAuthenticated === null ? (
+        {auth === false ? (
           <Fragment>
             <h1>Loading....</h1>
           </Fragment>
@@ -78,13 +78,12 @@ const Profile = ({
                           See plot
                         </Link>
                       </span>
-                      <a
-                        href="#"
+                      <button
                         onClick={() => handleDelete(user._id, movie._id)}
                         className="btn btn-danger mx-2"
                       >
                         Remove
-                      </a>
+                      </button>
                     </div>
 
                     <div className="col-sm-2 col-md-4 movie-info">

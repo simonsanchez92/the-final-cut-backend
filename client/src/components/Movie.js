@@ -26,7 +26,6 @@ const Movie = ({
     homepage,
     original_language,
     production_countries,
-    production_companies,
     runtime,
     revenue,
     tagline,
@@ -92,11 +91,20 @@ const Movie = ({
                     justify-content-center
                     my-2 "
         >
-          <div className="poster-container col-sm-12 col-md-4 py-2 mx-2">
-            <img
-              src={poster_path && IMG_PATH + poster_path}
-              alt={original_title}
-            />
+          <div className=" poster-container col-sm-12 col-md-4 py-2 mx-2">
+            <a
+              href={homepage}
+              target="_blank"
+              rel="noreferrer"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Go to website"
+            >
+              <img
+                src={poster_path && IMG_PATH + poster_path}
+                alt={original_title}
+              />
+            </a>
 
             {isInFavs() ? (
               <Fragment>
@@ -125,6 +133,9 @@ const Movie = ({
                     py-4
                     align-items-top"
           >
+            <p className="my-1" style={{ fontStyle: "italic" }}>
+              {tagline ? tagline + "..." : ""}
+            </p>
             <p className="my-1 movie-overview ">{overview}</p>
 
             <ul className="list-group list-group-horizontal-md py-4 d-flex flex-wrap align-items-center">
@@ -147,13 +158,25 @@ const Movie = ({
               <li className="py-2 my-2">
                 <i className="fas fa-star "></i> Revenue: ${revenue}
               </li>
+              <li className="py-2 my-2">
+                <i className="fas fa-star "></i>
+                <a
+                  className="link"
+                  target="_blank"
+                  rel="noreferrer"
+                  href={homepage}
+                >
+                  {" "}
+                  Go to Homepage
+                </a>
+              </li>
             </ul>
           </div>
         </div>
 
         <div className="movie-detail-btns container-fluid">
           <Link to="/">
-            <button className="btn btn-danger btn-sm" id="return-btn">
+            <button className="btn btn-secondary btn-md" id="return-btn">
               <i className="fas fa-long-arrow-alt-left"></i> Home
             </button>
           </Link>

@@ -68,7 +68,7 @@ exports.getUsers = async (req, res, next) => {
 };
 
 // @Description - Get user
-// @Route - GET  /api/v1/auth/users/:id
+// @Route - GET  /api/v1/auth
 // @access - Public
 exports.getUser = async (req, res, next) => {
   try {
