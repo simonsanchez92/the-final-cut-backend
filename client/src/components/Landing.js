@@ -16,7 +16,7 @@ const Landing = ({ movies, searchStr, page, paginate, getMovies }) => {
   return (
     <Fragment>
       <SearchBar />
-      <h2 id="search-text" className="text-uppercase px-3 font-weight-light">
+      <h2 id="search-text" className="text-capitalize px-3 font-weight-light">
         Best rated Movies:
       </h2>
 

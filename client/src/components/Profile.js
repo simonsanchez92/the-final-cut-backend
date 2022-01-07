@@ -75,7 +75,7 @@ const Profile = ({
                         className="btn btn-success"
                       >
                         <Link to={{ pathname: `movies/${movie.original_id}` }}>
-                          See plot
+                          More info
                         </Link>
                       </span>
                       <button

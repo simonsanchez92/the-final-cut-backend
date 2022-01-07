@@ -40,7 +40,7 @@ const SearchResults = ({ movies, searchStr, page, paginate }) => {
         Results for '{searchStr}':
       </h2>
 
-      <div className="movies-container  d-flex flex-row justify-content-around flex-wrap px-4 pb-4">
+      <div className="movies-container  d-flex flex-row justify-content-around flex-wrap px-3 pb-4">
         {movies === undefined
           ? ""
           : movies.map((movie) => <MovieCard key={movie.id} movie={movie} />)}

@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { searchMovies, setSearchStr } from "../actions/movies";
+import setAlert from "../utils/setAlert";
 
 const SearchBar = ({ setSearchStr, searchMovies }) => {
   const [formData, setFormData] = useState("");
@@ -22,20 +23,25 @@ const SearchBar = ({ setSearchStr, searchMovies }) => {
       searchMovies(formData);
       setFormData("");
       history.push("/search");
+    } else {
+      setAlert("warning", "Empty search box...");
     }
   };
 
   return (
     <div
-      className="search-container container-fluid d-flex justify-content-center mb-5 mt-2 "
+      className="search-container  container-fluid d-flex justify-content-center mb-5 mt-2 "
       id="search-container"
     >
-      <form className="search-form  my-2" onSubmit={(e) => handleSubmit(e)}>
-        <div className="input-group ">
+      <form
+        className="search-form my-2 container"
+        onSubmit={(e) => handleSubmit(e)}
+      >
+        <div className="input-group  px-5">
           <input
             className="search-input form-control"
             type="text"
-            placeholder="Begin your search..."
+            placeholder="Search for a movie..."
             onChange={(e) => handleChange(e)}
             value={formData}
             id="search-input"

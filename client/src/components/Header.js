@@ -6,9 +6,9 @@ import { logout } from "../actions/auth";
 const Header = ({ isAuthenticated, user, logout }) => {
   return (
     <Fragment>
-      <header className="container-fluid">
+      <header className="container-fluid mb-4">
         <nav className="navbar navbar-expand-md justify-content-between py-3">
-          <h2 className="navbar-brand py-2 m-0">
+          <h2 className=" navbar-brand py-2 m-0">
             <Link to="/" className="h2">
               <i className="fas fa-film"></i> TheFinalCut
             </Link>

@@ -4,6 +4,7 @@ import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { register } from "../actions/auth";
+import setAlert from "../utils/setAlert";
 
 const Register = ({ register, isAuthenticated }) => {
   const [formData, setFormData] = useState({
@@ -21,12 +22,21 @@ const Register = ({ register, isAuthenticated }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (password === password2) {
-      register({ name, email, password });
+    if (checkFields()) {
+      if (password === password2) {
+        register({ name, email, password });
+      } else {
+        register({});
+      }
     } else {
-      register({});
+      setAlert("warning", "You have missing fields...");
     }
   };
+  const checkFields = () => {
+    const fields = [name, email, password, password2];
+    return !fields.some((field) => field === "");
+  };
+
   if (isAuthenticated) {
     return <Redirect to="/" />;
   }
@@ -43,16 +53,16 @@ const Register = ({ register, isAuthenticated }) => {
                 justify-content-center
                 align-items-center"
       >
-        <h3 className="large">Register</h3>
+        <h1 className="h1 pb-3">Register</h1>
         <p>
           <i className="fas fa-user"></i> Create Your Account
         </p>
 
         <form
-          className="form  register-form py-3 "
+          className="register-form py-3 container d-flex flex-column"
           onSubmit={(e) => handleSubmit(e)}
         >
-          <div className="mb-3">
+          <div className="my-2">
             <input
               type="text"
               className="form-control"
@@ -61,11 +71,10 @@ const Register = ({ register, isAuthenticated }) => {
               placeholder="Name"
               value={name}
               onChange={(e) => handleChange(e)}
-              required
             />
           </div>
 
-          <div className="mb-3">
+          <div className="my-2">
             <input
               type="email"
               className="form-control "
@@ -77,7 +86,7 @@ const Register = ({ register, isAuthenticated }) => {
               onChange={(e) => handleChange(e)}
             />
           </div>
-          <div className="mb-3">
+          <div className="my-2">
             <input
               type="password"
               className="form-control"
@@ -89,7 +98,7 @@ const Register = ({ register, isAuthenticated }) => {
               onChange={(e) => handleChange(e)}
             />
           </div>
-          <div className="mb-3">
+          <div className="my-2">
             <input
               type="password"
               className="form-control"
@@ -101,7 +110,7 @@ const Register = ({ register, isAuthenticated }) => {
               onChange={(e) => handleChange(e)}
             />
           </div>
-          <button type="submit" className="btn btn-primary register-btn">
+          <button type="submit" className="btn btn-primary my-2">
             Submit
           </button>
         </form>

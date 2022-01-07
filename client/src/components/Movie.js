@@ -138,7 +138,7 @@ const Movie = ({
             </p>
             <p className="my-1 movie-overview ">{overview}</p>
 
-            <ul className="list-group list-group-horizontal-md py-4 d-flex flex-wrap align-items-center">
+            <ul className="border border-secondary    movie-info-card list-group py-4 px-1  my-4 d-flex flex-wrap align-items-center-sm">
               <li className="py-2 my-2">
                 <i className="fas fa-star "></i> imdbRating: {vote_average}/10
               </li>
@@ -161,13 +161,15 @@ const Movie = ({
               <li className="py-2 my-2">
                 <i className="fas fa-star "></i>
                 <a
-                  className="link"
+                  className="link "
                   target="_blank"
                   rel="noreferrer"
                   href={homepage}
                 >
                   {" "}
-                  Go to Homepage
+                  Official Website
+                  {"  "}
+                  <i class="fas fa-external-link-alt"></i>
                 </a>
               </li>
             </ul>

@@ -4,6 +4,8 @@ import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { login } from "../actions/auth";
 
+import setAlert from "../utils/setAlert";
+
 const Login = ({ isAuthenticated, login }) => {
   const [formData, setFormData] = useState({
     email: "",
@@ -20,6 +22,8 @@ const Login = ({ isAuthenticated, login }) => {
     if (formData.email && formData.password) {
       const { email, password } = formData;
       login(email, password);
+    } else if (!formData.email || !formData.password) {
+      setAlert("warning", "You have missing fields...");
     }
   };
 
@@ -38,13 +42,13 @@ const Login = ({ isAuthenticated, login }) => {
     justify-content-center
     align-items-center"
       >
-        <h3 className="large">Sign In</h3>
+        <h1 className="h1 pb-3">Sign In</h1>
 
         <p className="text-start">
           <i className="fas fa-user"></i> Sign into Your Account
         </p>
 
-        <form className="form py-3">
+        <form className="register-form py-3 container d-flex flex-column">
           <div className="mb-3">
             <input
               type="text"

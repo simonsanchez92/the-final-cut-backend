@@ -60,50 +60,52 @@ const MovieCard = ({
   };
 
   return (
-    <div className="movie-card">
-      <div className="movie-img-container">
-        <img
-          src={poster_path !== null ? IMG_PATH + poster_path : defaultPoster}
-          alt={original_title}
-        />
+    <div className="card-container">
+      <div className="movie-card ">
+        <div className="movie-img-container ">
+          <img
+            src={poster_path !== null ? IMG_PATH + poster_path : defaultPoster}
+            alt={original_title}
+          />
 
-        <div className="card-overlay">
-          <div className="movie-title">
-            <i className="fas fa-video"></i>
-            <span>{original_title}</span>
-          </div>
-          <div className="card-btns">
-            <span onClick={() => getSingleMovie(id)}>
-              <Link
-                to={{
-                  pathname: `movies/${id}`,
-                }}
-              >
-                <i className=" fas fa-plus"></i> See more
-              </Link>
-            </span>
+          <div className="card-overlay">
+            <div className="movie-title">
+              <i className="fas fa-video"></i>
+              <span>{original_title}</span>
+            </div>
+            <div className="card-btns">
+              <span onClick={() => getSingleMovie(id)}>
+                <Link
+                  to={{
+                    pathname: `movies/${id}`,
+                  }}
+                >
+                  <i className=" fas fa-plus"></i> See more
+                </Link>
+              </span>
 
-            {favouriteBtn(id) ? (
-              <Fragment>
-                <i
-                  onClick={() => handleDelete(user._id, id)}
-                  className="fas fa-star"
-                ></i>
-              </Fragment>
-            ) : (
-              <Fragment>
-                <i onClick={() => add()} className="far fa-star "></i>
-              </Fragment>
-            )}
+              {favouriteBtn(id) ? (
+                <Fragment>
+                  <i
+                    onClick={() => handleDelete(user._id, id)}
+                    className="fas fa-star"
+                  ></i>
+                </Fragment>
+              ) : (
+                <Fragment>
+                  <i onClick={() => add()} className="far fa-star "></i>
+                </Fragment>
+              )}
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="title-year-box">
-        <span>
-          <b>{original_title}</b>
-        </span>
-        <span>{!release_date ? "" : release_date.split("-")[0]}</span>
+        <div className="title-year-box">
+          <span>
+            <b>{original_title}</b>
+          </span>
+          <span>{!release_date ? "" : release_date.split("-")[0]}</span>
+        </div>
       </div>
     </div>
   );
